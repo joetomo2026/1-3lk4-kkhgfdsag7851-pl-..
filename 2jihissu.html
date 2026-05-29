@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>建築設備士 2次試験｜ホテル特化 対策アプリ</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=M+PLUS+1p:wght@400;700&display=swap');
+:root{
+  --bg:#0f1117;--surface:#1a1d27;--card:#21253a;--border:#2e3454;
+  --accent1:#f97316;--accent2:#fb923c;--text:#e8eaf0;--text-sub:#8892b0;
+  --green:#22c55e;--yellow:#eab308;--red:#ef4444;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
+html,body{height:100%;overflow:hidden;font-family:"Noto Sans JP",sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column;}
+
+/* HEADER */
+header{height:54px;flex-shrink:0;background:linear-gradient(135deg,#0f1117,#1a1d27);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;gap:12px;}
+.logo-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#f97316,#fb923c);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff;flex-shrink:0;}
+header h1{font-family:"M PLUS 1p",sans-serif;font-size:13px;font-weight:700;line-height:1.3;}
+header h1 span{color:var(--accent1);}
+.header-right{margin-left:auto;}
+.total-pill{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:11px;color:var(--text-sub);}
+.total-pill strong{color:var(--accent1);}
+
+/* NAV */
+.nav-tabs{height:40px;flex-shrink:0;display:flex;background:var(--surface);border-bottom:1px solid var(--border);}
+.nav-tab{flex:1;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;cursor:pointer;color:var(--text-sub);border-bottom:2px solid transparent;transition:color .15s;}
+.nav-tab.active{color:var(--accent1);border-bottom-color:var(--accent1);}
+
+/* BODY */
+.body-area{flex:1;display:flex;overflow:hidden;}
+
+/* SIDEBAR */
+.sidebar{width:210px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+.sb-section{padding:8px 10px 3px;flex-shrink:0;}
+.sb-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--text-sub);text-transform:uppercase;margin-bottom:4px;}
+.field-tabs{display:flex;flex-direction:column;gap:2px;padding:0 6px 6px;flex-shrink:0;}
+.field-tab{padding:7px 8px;border-radius:6px;border:1px solid transparent;cursor:pointer;display:flex;align-items:center;gap:7px;font-size:11px;font-weight:500;color:var(--text-sub);}
+.field-tab.active{color:var(--text);border-color:var(--border);background:var(--card);}
+.field-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.field-count{margin-left:auto;font-size:10px;background:var(--bg);padding:1px 5px;border-radius:6px;}
+.year-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:0 6px 8px;flex-shrink:0;}
+.year-btn{padding:6px 2px;border-radius:5px;border:1px solid var(--border);font-size:10px;cursor:pointer;text-align:center;background:var(--card);color:var(--text-sub);}
+.year-btn.active{background:var(--accent1);color:#fff;border-color:var(--accent1);font-weight:700;}
+.year-btn.all-btn{grid-column:span 3;}
+.year-btn.predicted{border-color:#a78bfa;color:#a78bfa;}
+.year-btn.predicted.active{background:#a78bfa;color:#fff;}
+.divider{height:1px;background:var(--border);flex-shrink:0;}
+.q-list{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:4px 6px 10px;}
+.q-item{padding:7px 8px;border-radius:6px;cursor:pointer;margin-bottom:2px;border:1px solid transparent;display:flex;align-items:flex-start;gap:6px;}
+.q-item.active{background:var(--card);border-color:var(--border);}
+.q-num-b{font-size:10px;font-weight:700;padding:1px 5px;border-radius:6px;flex-shrink:0;margin-top:2px;color:#fff;}
+.q-item-inner{flex:1;min-width:0;}
+.q-yr-tag{font-size:9px;color:var(--text-sub);margin-bottom:1px;}
+.q-item-text{font-size:10px;color:var(--text-sub);line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.q-item.active .q-item-text{color:var(--text);}
+.status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:6px;}
+.status-done{background:var(--green);}
+.status-review{background:var(--yellow);}
+
+/* PRACTICE */
+.practice-view{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
+.empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px;}
+
+/* Q PANEL */
+#qPanel{flex:1;display:none;flex-direction:column;overflow:hidden;}
+
+/* Q HEADER */
+.q-header{padding:9px 14px 7px;background:var(--card);border-bottom:1px solid var(--border);flex-shrink:0;}
+.q-header-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px;}
+.q-badge-lg{padding:2px 11px;border-radius:12px;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;}
+.tag{font-size:10px;padding:2px 6px;border-radius:6px;font-weight:500;}
+.q-question{font-size:13px;line-height:1.65;color:var(--text);}
+.status-badge{font-size:10px;padding:2px 7px;border-radius:6px;font-weight:600;}
+.sb-done{background:rgba(34,197,94,.15);color:var(--green);}
+.sb-review{background:rgba(234,179,8,.12);color:var(--yellow);}
+
+/* SPLIT PANE */
+.split-pane{flex:1;display:flex;overflow:hidden;min-height:0;}
+
+/* CANVAS PANE */
+.canvas-pane{flex:1;display:flex;flex-direction:column;padding:8px 8px 8px 12px;min-width:0;overflow:visible;}
+.canvas-toolbar{display:flex;align-items:center;gap:5px;margin-bottom:6px;flex-shrink:0;touch-action:auto;position:relative;z-index:20;}
+.canvas-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--text-sub);text-transform:uppercase;flex-shrink:0;}
+.tool-sep{flex:1;}
+.pen-size-label{font-size:9px;color:var(--text-sub);flex-shrink:0;}
+.pen-btn{width:36px;height:36px;border-radius:6px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;touch-action:manipulation;}
+.pen-btn.active{background:var(--accent1);border-color:var(--accent1);}
+.pen-dot{border-radius:50%;background:white;pointer-events:none;}
+.tool-btn{padding:0 10px;height:36px;border-radius:6px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;font-size:11px;color:var(--text-sub);white-space:nowrap;flex-shrink:0;touch-action:manipulation;}
+.tool-btn.eraser-active{background:var(--yellow);border-color:var(--yellow);color:#000;font-weight:700;}
+.canvas-wrap{flex:1;border-radius:9px;border:1.5px solid var(--border);background:#0d1020;position:relative;min-height:0;overflow:hidden;}
+#drawCanvas{position:absolute;top:0;left:0;width:100%;height:100%;display:block;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;}
+
+/* ANSWER PANE */
+.answer-pane{position:fixed;top:94px;left:0;bottom:0;width:210px;background:var(--surface);border-right:1px solid var(--accent1);display:flex;flex-direction:column;overflow:hidden;transform:translateX(-210px);transition:transform .25s ease;z-index:60;box-shadow:4px 0 20px rgba(0,0,0,0.6);}
+.answer-pane.visible{transform:translateX(0);}
+.answer-pane-header{padding:9px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.model-hdr-txt{font-size:11px;font-weight:700;color:var(--accent1);}
+.close-ans-btn{margin-left:auto;padding:5px 12px;border-radius:5px;border:1px solid var(--border);background:var(--card);cursor:pointer;font-size:11px;color:var(--text-sub);touch-action:manipulation;}
+.answer-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:8px 10px 12px;font-size:11px;}
+.ans-item{margin-bottom:8px;background:var(--card);border-radius:7px;overflow:hidden;border:1px solid var(--border);}
+.ans-item-label{padding:6px 11px;font-size:10px;font-weight:700;border-bottom:1px solid var(--border);color:var(--text-sub);}
+.ans-item-text{padding:6px 10px 8px;font-size:11px;line-height:1.75;white-space:pre-wrap;color:var(--text);}
+
+/* ACTION BAR */
+.action-bar{padding:8px 12px 10px;display:flex;gap:6px;flex-shrink:0;border-top:1px solid var(--border);background:var(--bg);align-items:center;flex-wrap:wrap;}
+.act-btn{padding:0 14px;height:38px;border-radius:8px;border:none;cursor:pointer;font-size:12px;font-weight:700;flex-shrink:0;touch-action:manipulation;}
+.act-btn-ans{background:linear-gradient(135deg,#f97316,#fb923c);color:#fff;}
+.act-btn-done{background:rgba(34,197,94,.15);color:var(--green);border:1px solid rgba(34,197,94,.3);}
+.act-btn-review{background:rgba(234,179,8,.12);color:var(--yellow);border:1px solid rgba(234,179,8,.3);}
+.act-btn-next{background:var(--card);color:var(--text-sub);border:1px solid var(--border);margin-left:auto;}
+
+/* HISTORY VIEW */
+.history-view{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px;display:none;}
+.hist-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px;}
+.stat-card{background:var(--card);border-radius:9px;padding:8px 4px;text-align:center;border:1px solid var(--border);}
+.stat-num{font-size:20px;font-weight:700;color:var(--accent1);}
+.stat-lbl{font-size:9px;color:var(--text-sub);margin-top:2px;}
+.stat-done .stat-num{color:var(--green);}
+.stat-review .stat-num{color:var(--yellow);}
+.progress-wrap{margin-bottom:12px;}
+.progress-label{display:flex;justify-content:space-between;font-size:10px;color:var(--text-sub);margin-bottom:4px;}
+.progress-bar{height:8px;background:var(--card);border-radius:8px;overflow:hidden;display:flex;}
+.pb-done{background:var(--green);height:100%;transition:width .4s;}
+.pb-review{background:var(--yellow);height:100%;transition:width .4s;}
+.hist-section-title{font-size:11px;font-weight:700;margin:10px 0 5px;letter-spacing:.05em;}
+.hist-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;margin-bottom:8px;}
+.hist-card{background:var(--card);border-radius:7px;padding:7px 8px;cursor:pointer;border:1px solid var(--border);}
+.hist-card:hover{border-color:var(--accent1);}
+.hist-card-top{display:flex;align-items:center;gap:5px;margin-bottom:3px;}
+.hist-q-badge{font-size:9px;font-weight:700;padding:1px 5px;border-radius:5px;color:#fff;}
+.hist-year{font-size:9px;color:var(--text-sub);}
+.hist-status{font-size:9px;margin-left:auto;}
+.hs-done{color:var(--green);}
+.hs-review{color:var(--yellow);}
+.hist-text{font-size:9px;color:var(--text-sub);line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.no-hist{text-align:center;color:var(--text-sub);padding:30px;font-size:11px;}
+.clear-hist-btn{background:none;border:1px solid var(--border);border-radius:6px;padding:5px 12px;font-size:10px;color:var(--text-sub);cursor:pointer;}
+
+/* 予想問題バッジ */
+.predicted-badge{font-size:9px;padding:2px 6px;border-radius:6px;background:rgba(167,139,250,.15);color:#a78bfa;border:1px solid rgba(167,139,250,.3);font-weight:700;}
+
+/* ===== 用語集 ===== */
+.glossary-view{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px;display:none;}
+.glossary-field-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px;}
+.gf-tab{padding:6px 12px;border-radius:20px;border:1px solid var(--border);font-size:11px;cursor:pointer;background:var(--card);color:var(--text-sub);font-weight:600;white-space:nowrap;}
+.gf-tab.active{background:var(--accent1);border-color:var(--accent1);color:#fff;}
+.glossary-category{margin-bottom:16px;}
+.gc-title{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--text-sub);text-transform:uppercase;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border);}
+.glossary-card{background:var(--card);border-radius:8px;border:1px solid var(--border);margin-bottom:5px;overflow:hidden;cursor:pointer;}
+.gc-term-row{display:flex;align-items:center;gap:8px;padding:9px 12px;}
+.gc-term{font-weight:700;font-size:12px;color:var(--text);flex:1;}
+.gc-num{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700;background:rgba(249,115,22,.15);color:var(--accent1);flex-shrink:0;}
+.gc-arrow{font-size:10px;color:var(--text-sub);flex-shrink:0;transition:transform .2s;}
+.gc-arrow.open{transform:rotate(90deg);}
+.gc-explanation{font-size:11px;line-height:1.75;color:var(--text-sub);padding:0 12px 10px;display:none;white-space:pre-wrap;}
+.gc-explanation.open{display:block;}
+.gc-keyword{color:var(--accent1);font-weight:700;}
+.glossary-search{width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:12px;margin-bottom:10px;outline:none;}
+.glossary-search::placeholder{color:var(--text-sub);}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo-mark">🏨</div>
+  <h1>建築設備士 2次試験<br><span>ホテル課題 特化対策</span></h1>
+  <div class="header-right">
+    <div class="total-pill">H19・H25・H29・R3＋予想 全 <strong id="totalCount">-</strong> 問</div>
+  </div>
+</header>
+<div class="nav-tabs">
+  <div class="nav-tab active" id="tab-practice">📝 練習</div>
+  <div class="nav-tab" id="tab-history">📊 学習履歴</div>
+  <div class="nav-tab" id="tab-glossary">📖 用語集</div>
+</div>
+<div class="body-area">
+  <aside class="sidebar">
+    <div class="sb-section"><div class="sb-label">分野</div></div>
+    <div class="field-tabs" id="fieldTabs">
+      <div class="field-tab active" data-f="all"><div class="field-dot" style="background:#8892b0"></div>すべて<span class="field-count" id="fc-all">-</span></div>
+      <div class="field-tab" data-f="空調・換気"><div class="field-dot" style="background:#4f9cf9"></div>空調・換気<span class="field-count" id="fc-空調">-</span></div>
+      <div class="field-tab" data-f="給排水衛生"><div class="field-dot" style="background:#22c55e"></div>給排水衛生<span class="field-count" id="fc-給排水">-</span></div>
+      <div class="field-tab" data-f="電気"><div class="field-dot" style="background:#f97316"></div>電気<span class="field-count" id="fc-電気">-</span></div>
+      <div class="field-tab" data-f="消防・防災"><div class="field-dot" style="background:#ef4444"></div>消防・防災<span class="field-count" id="fc-消防">-</span></div>
+      <div class="field-tab" data-f="共通・省エネ"><div class="field-dot" style="background:#a78bfa"></div>共通・省エネ<span class="field-count" id="fc-共通">-</span></div>
+    </div>
+    <div class="divider"></div>
+    <div class="sb-section"><div class="sb-label">年度</div></div>
+    <div class="year-grid">
+      <div class="year-btn all-btn active" data-y="all">全年度</div>
+      <div class="year-btn" data-y="H19">H19</div>
+      <div class="year-btn" data-y="H25">H25</div>
+      <div class="year-btn" data-y="H29">H29</div>
+      <div class="year-btn" data-y="R3">R3</div>
+      <div class="year-btn predicted" data-y="2026予想">2026予想</div>
+    </div>
+    <div class="divider"></div>
+    <div class="q-list" id="qList"></div>
+  </aside>
+
+  <div class="practice-view" id="practiceView">
+    <div class="empty-state" id="emptyState">
+      <div style="font-size:40px;opacity:.4">🏨</div>
+      <div style="font-size:14px;font-weight:700;color:var(--text)">問題を選んで練習しよう</div>
+      <div style="font-size:11px;text-align:center;max-width:220px;line-height:1.8;color:var(--text-sub)">
+        ホテル課題4年分の過去問＋<br>2026年予想問題を収録。<br>左のリストから問題を選択してください。<br>タッチペンで手書き解答できます。
+      </div>
+    </div>
+    <div id="qPanel">
+      <div class="q-header">
+        <div class="q-header-top" id="qHeaderTop"></div>
+        <div class="q-question" id="qQuestion"></div>
+      </div>
+      <div class="split-pane">
+        <div class="canvas-pane">
+          <div class="canvas-toolbar">
+            <span class="canvas-label">✏️ 解答欄</span>
+            <div class="tool-sep"></div>
+            <span class="pen-size-label">太さ</span>
+            <button class="pen-btn active" id="penThin" type="button"><div class="pen-dot" style="width:3px;height:3px"></div></button>
+            <button class="pen-btn" id="penMed"   type="button"><div class="pen-dot" style="width:5px;height:5px"></div></button>
+            <button class="pen-btn" id="penThick" type="button"><div class="pen-dot" style="width:8px;height:8px"></div></button>
+            <button class="tool-btn" id="eraserBtn" type="button">消しゴム</button>
+            <button class="tool-btn" id="clearCanvasBtn" type="button">全消去</button>
+          </div>
+          <div class="canvas-wrap" id="canvasWrap">
+            <canvas id="drawCanvas"></canvas>
+          </div>
+        </div>
+        <div class="answer-pane" id="answerPane">
+          <div class="answer-pane-header">
+            <span style="font-size:13px">💡</span>
+            <span class="model-hdr-txt">解答例・参考ポイント</span>
+            <span id="officialLabel" style="font-size:10px;color:var(--text-sub);margin-left:5px"></span>
+            <button class="close-ans-btn" id="btnHideAns" type="button">✕ 閉じる</button>
+          </div>
+          <div class="answer-scroll" id="answerScroll"></div>
+        </div>
+      </div>
+      <div class="action-bar">
+        <button class="act-btn act-btn-ans" id="btnShowAns" type="button">💡 解答例を見る</button>
+        <button class="act-btn act-btn-done"   id="btnDone"   type="button">✅ 完了</button>
+        <button class="act-btn act-btn-review" id="btnReview" type="button">🔁 要復習</button>
+        <button class="act-btn" id="btnClearSt" type="button" style="background:var(--card);color:var(--text-sub);border:1px solid var(--border);">🗑 消去</button>
+        <button class="act-btn act-btn-next"   id="btnNext"   type="button">次の問題 →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="history-view" id="historyView">
+    <div style="margin-bottom:10px;">
+      <div style="font-size:15px;font-weight:700;margin-bottom:2px;">📊 学習履歴</div>
+      <div style="font-size:11px;color:var(--text-sub)">学習した問題の記録を確認できます</div>
+    </div>
+    <div class="hist-stats">
+      <div class="stat-card stat-all"><div class="stat-num" id="st-total">0</div><div class="stat-lbl">総問題数</div></div>
+      <div class="stat-card stat-done"><div class="stat-num" id="st-done">0</div><div class="stat-lbl">✅ 完了</div></div>
+      <div class="stat-card stat-review"><div class="stat-num" id="st-review">0</div><div class="stat-lbl">🔁 要復習</div></div>
+      <div class="stat-card stat-pct"><div class="stat-num" id="st-pct">0%</div><div class="stat-lbl">学習進捗</div></div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>進捗バー</span><span id="prog-label">0 / - 問</span></div>
+      <div class="progress-bar">
+        <div class="pb-done" id="pb-done" style="width:0%"></div>
+        <div class="pb-review" id="pb-review" style="width:0%"></div>
+      </div>
+    </div>
+    <div id="hist-by-field"></div>
+    <div style="margin-top:10px;display:flex;justify-content:flex-end;">
+      <button class="clear-hist-btn" id="clearHistBtn" type="button">🗑️ 履歴をすべてリセット</button>
+    </div>
+  </div>
+</div>
+
+  <!-- 用語集ビュー -->
+  <div class="glossary-view" id="glossaryView">
+    <div style="margin-bottom:10px;">
+      <div style="font-size:15px;font-weight:700;margin-bottom:2px;">📖 用語集</div>
+      <div style="font-size:11px;color:var(--text-sub)">ホテル課題の重要語句・数値をまとめました</div>
+    </div>
+    <input class="glossary-search" id="glossarySearch" type="text" placeholder="🔍 キーワード検索...">
+    <div class="glossary-field-tabs" id="glossaryFieldTabs">
+      <div class="gf-tab active" data-gf="all">すべて</div>
+      <div class="gf-tab" data-gf="空調・換気">空調・換気</div>
+      <div class="gf-tab" data-gf="給排水衛生">給排水衛生</div>
+      <div class="gf-tab" data-gf="電気">電気</div>
+      <div class="gf-tab" data-gf="消防・防災">消防・防災</div>
+      <div class="gf-tab" data-gf="共通・省エネ">共通・省エネ</div>
+    </div>
+    <div id="glossaryList"></div>
+  </div>
+</div>
+
+<script>
+// ===== 問題データ =====
+var QUESTIONS = [
+  // ─── H19（平成19年・2007年）ホテル ───
+  {year:'H19',year_label:'H19（2007年）',q_num:'1',field:'共通・省エネ',theme:'コージェネ計画',
+   question:'コージェネレーションシステム計画について、その要点をいくつか述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'電主熱従方式とし発電電力を自家消費、排熱（排ガス・冷却水熱）を給湯・暖房・吸収冷凍機に有効利用する。'},
+     {label:'要点②',text:'コジェネ停止時でも電力・熱の供給が継続できるよう商用系統連系と補助熱源を確保する。'},
+     {label:'要点③',text:'省エネ効果（一次エネルギー削減量・CO₂削減量）を定量的に算定する。'}
+   ]},
+  {year:'H19',year_label:'H19（2007年）',q_num:'2',field:'空調・換気',theme:'大宴会場空調',
+   question:'大宴会場の空調方式の選定とその理由を述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'在室変動が大きいためVAV単一ダクト方式とCO₂センサーDCV制御を組み合わせて省エネを図る。'},
+     {label:'要点②',text:'単独系統として短時間での予冷・予熱が可能な容量の空調機を選定する。'},
+     {label:'要点③',text:'騒音振動対策として防振架台・フレキシブルジョイント・消音チャンバーを設ける。'}
+   ]},
+  {year:'H19',year_label:'H19（2007年）',q_num:'3',field:'給排水衛生',theme:'飲料水給水設備計画',
+   question:'飲料水給水設備計画の要点を述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'受水槽は有効容量1日使用水量の1/2以上を確保し六面点検可能な構造とする。'},
+     {label:'要点②',text:'クロスコネクション防止・吐水口空間を確保し飲料水と雑用水を完全分離する。'},
+     {label:'要点③',text:'節水型器具を採用し水使用量を削減する。'}
+   ]},
+  {year:'H19',year_label:'H19（2007年）',q_num:'4',field:'給排水衛生',theme:'中央式給湯設備計画',
+   question:'中央式給湯設備計画の要点を述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'給湯温度60℃以上を維持しレジオネラ属菌の繁殖を防止する。'},
+     {label:'要点②',text:'返湯管（循環配管方式）を設けて末端出湯時間を短縮し熱損失を低減する。'},
+     {label:'要点③',text:'銅管またはステンレス鋼管を採用し熱膨張対策（エキスパンションループ等）を施す。'}
+   ]},
+  {year:'H19',year_label:'H19（2007年）',q_num:'5',field:'電気',theme:'大宴会場照明設備計画',
+   question:'大宴会場の照明設備計画の要点を述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'宴会・会議等の用途に応じた複数の照明シーンを調光システムで設定しLED器具を採用する。'},
+     {label:'要点②',text:'UGR≦19のグレア抑制型器具で均斉度（最小/平均≧0.7）を確保する均等配置とする。'},
+     {label:'要点③',text:'省エネのため人感センサーによる自動消灯を組み合わせる。'}
+   ]},
+  {year:'H19',year_label:'H19（2007年）',q_num:'6',field:'電気',theme:'動力幹線計画',
+   question:'動力幹線計画の要点を述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'用途・系統ごとに放射状配線とし電圧降下（幹線2%以下）を確認してケーブルサイズを選定する。'},
+     {label:'要点②',text:'大容量機器には専用幹線を設けケーブルラックまたは配管で施工する。'},
+     {label:'要点③',text:'インバーター機器には高調波対策フィルターを設ける。'}
+   ]},
+  {year:'H19',year_label:'H19（2007年）',q_num:'7',field:'消防・防災',theme:'大宴会場排煙設備計画',
+   question:'大宴会場の排煙設備計画の要点を述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'防煙たれ壁で500㎡以下に区画し各区画に排煙口を配置する。'},
+     {label:'要点②',text:'排煙機風量は最大防煙区画1㎡あたり2m³/min以上かつ120m³/min以上を確保する。'},
+     {label:'要点③',text:'排煙口は床面から2.1m以上の高さに設け区画内各部から30m以内に配置する。'}
+   ]},
+  {year:'H19',year_label:'H19（2007年）',q_num:'8',field:'消防・防災',theme:'スプリンクラー設備計画',
+   question:'スプリンクラー設備計画の要点を述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'全館に閉鎖型湿式スプリンクラーを設置し免除区画（便所・階段等）には補助散水栓を設ける。'},
+     {label:'要点②',text:'水源容量はヘッド10個同時開放（16m³以上）、ポンプ流量900L/min以上を確保する。'},
+     {label:'要点③',text:'標準型ヘッド（警戒半径2.3m）を基本とし特殊空間には適切な型式を選定する。'}
+   ]},
+  {year:'H19',year_label:'H19（2007年）',q_num:'9',field:'電気',theme:'非常用照明装置計画',
+   question:'非常用の照明装置計画の要点を述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'建築基準法に基づき居室・廊下・階段等の避難経路に設置し床面照度2lx以上を確保する。'},
+     {label:'要点②',text:'LED器具を採用し停電時30分以上（地階・無窓階・11階以上は60分以上）点灯できる電源を備える。'},
+     {label:'要点③',text:'水気のある場所は防水型、屋外は耐候型器具を採用する。'}
+   ]},
+  {year:'H19',year_label:'H19（2007年）',q_num:'10',field:'電気',theme:'受変電設備計画',
+   question:'受変電設備の総容量及び契約電力の想定とその理由を述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'各設備の設備容量に需要率・負荷率・不等率を乗じた最大需要電力から変圧器容量を決定する。'},
+     {label:'要点②',text:'デマンドコントロールシステムを導入し空調・照明等の負荷を自動制御して契約電力超過を防ぐ。'},
+     {label:'要点③',text:'受変電設備は専用電気室に設置し保守点検スペース・搬出入ルートを確保する。'}
+   ]},
+
+  // ─── H25（平成25年・2013年）シティホテル ───
+  {year:'H25',year_label:'H25（2013年）',q_num:'1',field:'空調・換気',theme:'客室空調・換気設備計画',
+   question:'客室に設ける空調・換気設備の計画について、その要点をいくつか述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'個別制御可能なFCUを採用し在室者が温度設定できる計画とする。'},
+     {label:'要点②',text:'換気は外気処理ユニットまたはFCU経由でCO₂濃度1,000ppm以下を維持する。'},
+     {label:'要点③',text:'浴室・トイレを負圧（排気>給気）に維持し臭気の客室流入を防止する。'}
+   ]},
+  {year:'H25',year_label:'H25（2013年）',q_num:'2',field:'空調・換気',theme:'大宴会場空調設備計画',
+   question:'大宴会場1・2に設ける空調設備の計画について、その要点をいくつか述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'在室変動が大きいためVAV単一ダクト方式とCO₂センサーDCVを組み合わせ省エネを図る。'},
+     {label:'要点②',text:'単独系統として短時間での予冷・予熱が可能な容量の空調機を選定する。'},
+     {label:'要点③',text:'騒音振動対策として防振架台・フレキシブルジョイント・消音チャンバーを設ける。'}
+   ]},
+  {year:'H25',year_label:'H25（2013年）',q_num:'3',field:'給排水衛生',theme:'中央式給水設備計画',
+   question:'中央式給水設備の計画について、その要点をいくつか述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'受水槽容量1日使用水量の1/2以上を確保し六面点検可能な構造とする。'},
+     {label:'要点②',text:'各階給水圧を0.3MPa以下に制御する減圧弁を適所に設ける。'},
+     {label:'要点③',text:'節水型器具採用で水使用量を削減する。'}
+   ]},
+  {year:'H25',year_label:'H25（2013年）',q_num:'4',field:'給排水衛生',theme:'浴槽循環ろ過設備計画',
+   question:'浴槽に設ける循環ろ過設備の計画について、その要点をいくつか述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'循環ポンプ・ろ過器・加熱器・薬液注入装置・ヘアキャッチャーを設置し法定ターンオーバー時間以内で循環する。'},
+     {label:'要点②',text:'残留塩素濃度0.4mg/L以上を維持しレジオネラ属菌繁殖を防止する。'},
+     {label:'要点③',text:'定期的な逆洗と点検・消毒を実施する。'}
+   ]},
+  {year:'H25',year_label:'H25（2013年）',q_num:'5',field:'電気',theme:'大宴会場照明設備計画',
+   question:'大宴会場に設ける照明設備の計画について、その要点をいくつか述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'宴会・会議等の用途に応じた複数照明シーンを調光システムで設定する。'},
+     {label:'要点②',text:'LED器具採用で均斉度・UGR基準を満足する均等配置とする。'},
+     {label:'要点③',text:'将来のレイアウト変更に対応できる均等グリッド配置とする。'}
+   ]},
+  {year:'H25',year_label:'H25（2013年）',q_num:'6',field:'電気',theme:'太陽光発電設備計画',
+   question:'太陽光発電設備の計画について、その要点をいくつか述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'有効面積と日射量から月間・年間発電量を算定しシステム容量を決定する。'},
+     {label:'要点②',text:'系統連系型逆潮流あり方式とする。'},
+     {label:'要点③',text:'最適設置角度・方位・アレイ間隔を計画する。'}
+   ]},
+  {year:'H25',year_label:'H25（2013年）',q_num:'7',field:'消防・防災',theme:'排煙機風量算定・計画',
+   question:'大宴会場・会議室等3室の排煙機風量算定と計画要点を述べよ。',
+   official:false,
+   answers:[
+     {label:'風量算定',text:'最大防煙区画面積（㎡）× 2（m³/min/㎡）× 60（min/h）× 1.1で算定。'},
+     {label:'要点①',text:'排煙口は床面2.1m以上・区画内30m以内に設置する。'},
+     {label:'要点②',text:'排煙機は耐熱仕様で自火報連動自動起動とする。'}
+   ]},
+  {year:'H25',year_label:'H25（2013年）',q_num:'8',field:'消防・防災',theme:'スプリンクラー計画',
+   question:'スプリンクラーの計画について、その要点をいくつか述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'全館に閉鎖型湿式を設置し免除区画には補助散水栓を設ける。'},
+     {label:'要点②',text:'水源容量・ポンプ流量を法令規定値以上確保する。'},
+     {label:'要点③',text:'高天井等の特殊空間には適切な型式のヘッドを選定する。'}
+   ]},
+  {year:'H25',year_label:'H25（2013年）',q_num:'9',field:'消防・防災',theme:'自動火災報知設備計画',
+   question:'自動火災報知設備の計画について、その要点をいくつか述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'警戒区域は600㎡・50m以下で設定する。'},
+     {label:'要点②',text:'受信機は常時監視可能な場所に設置する。'},
+     {label:'要点③',text:'感知器は環境に応じた適切な種別を選定する。'}
+   ]},
+  {year:'H25',year_label:'H25（2013年）',q_num:'10',field:'共通・省エネ',theme:'コージェネレーション計画',
+   question:'コージェネレーションの計画について、その要点をいくつか述べよ。',
+   official:false,
+   answers:[
+     {label:'要点①',text:'電主熱従方式で排熱を給湯・空調に有効利用する。'},
+     {label:'要点②',text:'停止時のバックアップ体制を確保する。'},
+     {label:'要点③',text:'省エネ効果を定量的に評価する。'}
+   ]},
+
+  // ─── H29（平成29年・2017年）海辺のホテル ───
+  {year:'H29',year_label:'H29（2017年）',q_num:'1',field:'空調・換気',theme:'客室空調・換気方式',
+   question:'宿泊棟の客室に設ける空調・換気設備の計画について、その要点をいくつか述べよ。',
+   official:true,
+   answers:[
+     {label:'要点①',text:'客室の空調は外調機＋ファンコイルユニット（FCU）方式を採用し、4管式システムとすることで居住者の好みに応じた冷暖房個別制御を可能にする。'},
+     {label:'要点②',text:'FCUは低騒音型を選定し、客室入口付近等のベッドから離れた位置に設置する。空調空気がベッド上の居住者に直接当たらないよう吹出し方向に配慮する。'},
+     {label:'要点③',text:'換気は外調機で新鮮外気を各客室に供給し、浴室・トイレからの排気と連動した機械換気により室内を微負圧に保ち、廊下への臭気漏洩を防ぐ。'},
+     {label:'要点④',text:'外調機・FCU・換気ファンは防振架台に設置し、フレキシブルジョイント・消音ボックスを設けて振動・騒音の客室への伝播を防止する。'}
+   ]},
+  {year:'H29',year_label:'H29（2017年）',q_num:'2',field:'空調・換気',theme:'ホワイエ空調省エネ手法',
+   question:'共用棟2階のホワイエに設ける空調設備において、有効な省エネルギー手法をいくつか記入し、それぞれについて、省エネルギーとなる理由を具体的に述べよ。',
+   official:true,
+   answers:[
+     {label:'手法①：CO₂濃度制御による外気導入量制御',text:'在室人員の変動が大きいため、CO₂センサーで必要最小限の外気量を自動制御する。閑散時に外気量を絞ることで外気処理に要する冷却・加熱・加湿エネルギーを削減できるため省エネとなる。'},
+     {label:'手法②：外気冷房（エコノマイザサイクル）',text:'中間期・冬期に外気エンタルピーが室内設定値より低い場合、冷凍機を使用せず外気で冷却する。冷凍機の運転時間を削減できるため省エネとなる。'},
+     {label:'手法③：単独系統による最適制御',text:'隣接室とは別系統とし、ホワイエの使用スケジュールに応じた間欠運転と最小風量制御を行う。不使用時の無駄な運転をなくせるため省エネとなる。'}
+   ]},
+  {year:'H29',year_label:'H29（2017年）',q_num:'3',field:'給排水衛生',theme:'給湯設備省エネ計画',
+   question:'給湯設備における省エネルギーの計画について、その要点をいくつか述べよ。',
+   official:true,
+   answers:[
+     {label:'要点①',text:'熱源は潜熱回収型ガス給湯機（熱効率95%以上）またはヒートポンプ給湯機を採用し、従来型と比べて一次エネルギー消費量を大幅に削減する。'},
+     {label:'要点②',text:'給湯配管は断熱材で保温し熱損失を低減する。循環ポンプはタイマー制御または流量センサー制御で使用時間外の不必要な循環を停止し、ポンプの消費電力を削減する。'},
+     {label:'要点③',text:'節湯型器具（サーモスタット付混合水栓・定流量弁等）を採用して使用湯量を削減し、熱源機の稼働時間を短縮する。'},
+     {label:'要点④',text:'貯湯槽は断熱性能の高い製品を選定し、保有熱の放散を最小化する。太陽熱利用給湯設備と組み合わせて補助加熱量を削減する。'}
+   ]},
+  {year:'H29',year_label:'H29（2017年）',q_num:'4',field:'給排水衛生',theme:'雨水利用設備計画',
+   question:'雨水利用設備の計画について、その要点をいくつか述べよ。',
+   official:true,
+   answers:[
+     {label:'要点①',text:'屋上からの雨水をルーフドレン→スクリーン→沈砂槽→雨水貯留槽→ろ過装置→消毒装置の順で処理し、便器洗浄水・散水等の雑用水として利用する。'},
+     {label:'要点②',text:'初期降雨はファーストフラッシュ装置で排除し、清浄な雨水のみを貯留槽へ導く。集水量＝集水面積×降水量×流出係数で算定し、使用量と対比して貯留槽容量を設定する。'},
+     {label:'要点③',text:'雑用水系統と飲料水系統は完全に分離し、色分け・標示で識別する。定期的な水質検査（大腸菌群・濁度等）を実施し水質基準を満たすことを確認する。'},
+     {label:'要点④',text:'雨水貯留槽はマンホール・タラップを設けて定期清掃が可能な構造とする。満水対策としてオーバーフロー管と電動遮断弁を設ける。'}
+   ]},
+  {year:'H29',year_label:'H29（2017年）',q_num:'5',field:'電気',theme:'ロビー照明設備計画',
+   question:'共用棟1階のロビーに設ける照明設備（非常用の照明装置及び誘導灯を除く。）の計画について、その要点をいくつか述べよ。',
+   official:true,
+   answers:[
+     {label:'要点①',text:'JIS Z 9110の推奨照度（ロビー200〜500lx）を満足し、ホテルロビーとして高級感・演出効果を考慮した照明計画とする。チェックインカウンターは局部照明で高照度（500〜750lx）を確保する。'},
+     {label:'要点②',text:'演色性の高いLED器具（Ra90以上）を採用する。高天井では光源交換が容易なダウンライト・スポットライトを組み合わせる。'},
+     {label:'要点③',text:'グレアを抑制した光源・器具を選定し、調光制御により時間帯・用途に応じた照明シーンの切り替えを可能にする。'},
+     {label:'要点④',text:'高天井の器具保守には昇降装置（電動昇降ユニット等）またはキャットウォークを設け、安全かつ効率的な清掃・ランプ交換ができる計画とする。'}
+   ]},
+  {year:'H29',year_label:'H29（2017年）',q_num:'6',field:'電気',theme:'太陽光発電設備計画',
+   question:'太陽光発電設備の計画について、その要点をいくつか述べよ。',
+   official:true,
+   answers:[
+     {label:'要点①',text:'年間を通じ日影とならず日射量と発電効率が最大となる方位・傾斜角（真南向き・傾斜角30°程度）及び耐風圧に考慮して太陽電池アレイを配置する。'},
+     {label:'要点②',text:'アレイの架台は太陽電池用支持物設計基準に示す強度を確保し、屋上既設設備の陰にならない位置に設置する。'},
+     {label:'要点③',text:'パワーコンディショナは系統連系規程に適合した製品を選定し、単独運転防止機能（能動的・受動的方式の組合せ）と逆電力継電器（RPR）を具備する。'},
+     {label:'要点④',text:'保護継電器（OVR・UVR・OFR・UFR）を設置する。来場者への環境配慮アピールとして発電状態の表示装置を設ける。'}
+   ]},
+  {year:'H29',year_label:'H29（2017年）',q_num:'7',field:'消防・防災',theme:'排煙機風量算定・計画',
+   question:'共用棟2階の大会議室・会議室1・会議室2の3室について、1台の排煙機による機械排煙設備を計画する場合の排煙機の必要最小風量を求めよ。また、当該3室における排煙設備の計画について、その要点をいくつか述べよ。',
+   official:true,
+   answers:[
+     {label:'風量算定',text:'最大防煙区画面積（㎡）× 2（m³/min/㎡）× 60（min/h）× 1.1\n※3室のうち最大床面積の室を基準に算定する。'},
+     {label:'要点①',text:'各室の排煙風量は床面積当たり1m³/min以上確保し、防煙区画（500㎡以下）ごとに排煙口を設置する。'},
+     {label:'要点②',text:'天井高3m未満の場合は排煙口を天井または天井から80cm以内の壁に設置し、区画内各部分から水平距離30m以内に配置する。手動開放装置を壁面高さ80〜150cmに設ける。'},
+     {label:'要点③',text:'排煙ダクトは鋼板製（不燃材料）とし、防火区画貫通部には280℃作動の防火ダンパーを設置する（排煙機直近は除く）。'}
+   ]},
+  {year:'H29',year_label:'H29（2017年）',q_num:'8',field:'消防・防災',theme:'スプリンクラー設備計画',
+   question:'スプリンクラー設備の計画について、その要点をいくつか述べよ。',
+   official:true,
+   answers:[
+     {label:'要点①',text:'全館に湿式閉鎖型スプリンクラー設備を設ける。水源容量・ポンプ流量は同時開放個数（標準型10個）に基づいて算定する。'},
+     {label:'要点②',text:'ヘッドは標準型（半径2.3m）で警戒できるよう配置を計画する。階段・便所等の設置免除部分は補助散水栓で警戒する。'},
+     {label:'要点③',text:'スプリンクラーポンプは地下消火設備室に設置し、末端試験弁により定期的な性能確認が行える計画とする。'},
+     {label:'要点④',text:'厨房等の高温場所にはヒュージブルリンク式の高温型ヘッドを採用し、誤作動を防止する。'}
+   ]},
+  {year:'H29',year_label:'H29（2017年）',q_num:'9',field:'電気',theme:'誘導灯計画',
+   question:'誘導灯の計画について、その要点をいくつか述べよ。',
+   official:true,
+   answers:[
+     {label:'要点①',text:'避難口誘導灯は避難口及びその直近の避難上有効な箇所に設置し、通路誘導灯は廊下・通路・階段の各部分から視認できる位置に設置して避難方向を明確に示す。'},
+     {label:'要点②',text:'誘導灯の等級（A・B・C級）は視認距離（A級30m・B級20m・C級10m）に応じて選定する。大規模空間・高天井ではA級を採用する。'},
+     {label:'要点③',text:'蓄電池内蔵型を採用し、停電時に20分間以上（地階・無窓階・11階以上は60分以上）点灯を維持する。'},
+     {label:'要点④',text:'消防法の設置免除規定を確認し、主要構造部耐火構造で床面積100㎡以下の居室等について適切に免除を適用する。'}
+   ]},
+  {year:'H29',year_label:'H29（2017年）',q_num:'10',field:'電気',theme:'避雷設備計画',
+   question:'避雷設備の計画について、その要点をいくつか述べよ。ただし、避雷設備は、建築物全体を保護することとし、JIS A 4201:2003「建築物等の雷保護」に適合しているものとすること。',
+   official:true,
+   answers:[
+     {label:'要点①',text:'回転球法・保護角法から建物条件に合った受雷部（突針または棟上げ導体）を決定する。テレビアンテナ・煙突等の建物より高い部分は受雷部として突針を採用し保護角内に配置する。'},
+     {label:'要点②',text:'高さ60mを超える建物の側面にはメッシュ法で受雷部を設ける。'},
+     {label:'要点③',text:'引下げ導線は構造体鉄骨・鉄筋を利用するか、専用の引下げ導体を建物外周に均等配置する。接地抵抗は10Ω以下となるよう接地極を施設する。'}
+   ]},
+
+  // ─── R3（令和3年・2021年）市街地ホテル ───
+  {year:'R3',year_label:'R3（2021年）',q_num:'1',field:'空調・換気',theme:'厨房排気ファン・排気フード',
+   question:'2階の厨房の調理機器に排気フードを設けて換気する場合の排気ファンの有効換気量（建築基準法）の計算式を記述するとともに、計算式に記号を用いる場合にはその意味を記述せよ。また、排気フードの計画（有効換気量の計算式に係るものを除く。）の要点について、具体的に二つ記述せよ。',
+   official:true,
+   answers:[
+     {label:'計算式',text:'有効換気量 V（m³/h）= nkQ\nn：フードの形状による係数（20 または 30）\nk：理論排ガス量（0.93m³/（kW·h））\nQ：調理機器の燃料消費量（kW）'},
+     {label:'排気フードの計画①',text:'油脂を含む排気に用いるフードには、排気に含まれる油脂等の付着成分を有効に除去できるグリス除去装置を設ける。'},
+     {label:'排気フードの計画②',text:'排気フードはステンレス製とし、板厚は1.0mm以上とする。'},
+     {label:'その他参考',text:'・面風速を十分に確保する（0.3m/s以上）\n・火元を有効に包含できる大きさとし、調理の作業性も考慮してフードの設置高さを決定する。'}
+   ]},
+  {year:'R3',year_label:'R3（2021年）',q_num:'2',field:'空調・換気',theme:'高天井エントランスホール空調',
+   question:'エントランスホールに設ける空調設備において、快適な温熱環境を提供するための方法について、具体的に三つ記述せよ。',
+   official:true,
+   answers:[
+     {label:'解答①',text:'天井高が高いため、空調空気が十分に居住域に到達するように吹出口の配置とサイズ選定に留意する。また、還気口は床面に近い場所とし上下温度差が少なくなるようにする。'},
+     {label:'解答②',text:'北側の大きな窓面の熱負荷対策として、ブラインドを計画するとともに天井面や床面の窓際に線状吹出口を配置する。'},
+     {label:'解答③',text:'風除室からの外気の侵入を抑制するため、エアバランスが陽圧になるように計画する。'},
+     {label:'その他参考',text:'隣接するラウンジとは別系統とし、単独で温調できるようにするとともに、匂い等の拡散を防止する。'}
+   ]},
+  {year:'R3',year_label:'R3（2021年）',q_num:'3',field:'空調・換気',theme:'FCUの選定・設置計画',
+   question:'客室に設けるファンコイルユニットの計画の要点について、具体的に三つ記述せよ。',
+   official:true,
+   answers:[
+     {label:'解答①',text:'騒音に配慮した低騒音タイプの機器を選定し、客室入口付近等のベッドから離れた位置に設置する。'},
+     {label:'解答②',text:'空調空気がベッド上の居住者にあたらないようにする。'},
+     {label:'解答③',text:'居住者の好みに合わせて温度設定が可能なように4管式システムとし、コントローラを室内に設け、自動制御を行う。'}
+   ]},
+  {year:'R3',year_label:'R3（2021年）',q_num:'4',field:'給排水衛生',theme:'屋内排水通気・排水管系統',
+   question:'地上階用の屋内排水通気設備における排水管の計画の要点について、具体的に三つ記述せよ。ただし、通気管及び掃除口の計画については除くこと。',
+   official:true,
+   answers:[
+     {label:'解答①',text:'排水が滞りなく流れるよう、適切な配管サイズおよび勾配を設ける。'},
+     {label:'解答②',text:'排水種類、排水水質、周囲の状況により適切な配管材料を選択する。'},
+     {label:'解答③',text:'原則として1階、最低階の排水横主管と上階の排水管は立管に接続せず、単独排水とする。'},
+     {label:'その他参考',text:'・耐震クラスにより配管支持の仕様を決定する。\n・凍結の恐れのある屋外露出排水管は配管に断熱を行う。\n・高温排水の場合、曲がりを設ける等、配管伸縮を考慮する。'}
+   ]},
+  {year:'R3',year_label:'R3（2021年）',q_num:'5',field:'給排水衛生',theme:'浴槽循環ろ過設備',
+   question:'10階の浴室の浴槽に設ける循環ろ過設備において、次に示す機器を用いて、ろ過設備の処理フローを完成せよ。また、ろ過器の計画の要点について、具体的に二つ記述せよ。\n〔機器〕ろ過器、循環ポンプ、熱交換器、薬液注入装置、ヘアキャッチャー',
+   official:true,
+   answers:[
+     {label:'処理フロー',text:'還水口 → ヘアキャッチャー → 熱交換器 → 循環ポンプ → 薬液注入装置 → ろ過器 → 吐出口'},
+     {label:'ろ過器の要点①',text:'ろ材は砂、珪藻土、カートリッジに大別される。ろ過対象物、メンテナンス、コストなどによりろ過器のろ材を決定する。'},
+     {label:'ろ過器の要点②',text:'ろ過器はろ材の清掃を考慮して逆洗が可能なシステムとする。ろ過器本体は浴槽水面より低いレベルに設置する。メンテナンスを行うため、ろ過機本体周囲は適切なメンテナンススペースを設ける。'}
+   ]},
+  {year:'R3',year_label:'R3（2021年）',q_num:'6',field:'消防・防災',theme:'スプリンクラーヘッド計画',
+   question:'スプリンクラー設備におけるスプリンクラーヘッドの計画の要点について、具体的に三つ記述せよ。',
+   official:true,
+   answers:[
+     {label:'解答①',text:'スプリンクラーヘッドは閉鎖型、開放型に分類される。'},
+     {label:'解答②',text:'スプリンクラーヘッドの配置は建物用途、構造などにより定められた水平距離以下となるように配置する。'},
+     {label:'解答③',text:'スプリンクラーヘッドの配置は散水障害にならない位置とする。'},
+     {label:'その他参考',text:'寒冷地では凍結の恐れがあるため乾式とし、ヘッドは閉鎖式とする。'}
+   ]},
+  {year:'R3',year_label:'R3（2021年）',q_num:'7',field:'電気',theme:'事務室照明器具配置計画',
+   question:'1階の事務室に設ける照明器具（非常用の照明装置及び誘導灯を除く。）の配置に係る計画の要点について、具体的に三つ記述せよ。',
+   official:true,
+   answers:[
+     {label:'解答①',text:'外光を有効に利用し光環境の向上及び省エネルギーを図るため、昼光センサーによる初期照度補正制御と調光制御を行う。'},
+     {label:'解答②',text:'管理事務室内の什器、机レイアウトへ柔軟に対応でき、最小照度と最大照度の差が小さくなるよう、均斉度に配慮した配置を行う。'},
+     {label:'解答③',text:'JIS基準に倣い、照明率、保守率を考慮し机上面で平均750Lxが確保できる台数の器具を配置する。'}
+   ]},
+  {year:'R3',year_label:'R3（2021年）',q_num:'8',field:'電気',theme:'非常用照明装置計画',
+   question:'10階に設ける非常用の照明装置における照明器具の計画の要点について、具体的に三つ記述せよ。',
+   official:true,
+   answers:[
+     {label:'解答①',text:'建築基準法に基づき、客室、脱衣室、リラックスルーム、マッサージルーム等の居室、及び廊下、EVホール、避難階段へは非常用照明一般形器具を設置する。'},
+     {label:'解答②',text:'男子浴室、女子浴室、サウナ室へは耐水性を考慮し防水型非常用照明器具を設置する。'},
+     {label:'解答③',text:'非常用照明器具はLED器具とし、床面の最低照度を2Lx以上に確保できるよう配置を行う。'}
+   ]},
+  {year:'R3',year_label:'R3（2021年）',q_num:'9',field:'電気',theme:'太陽光発電設備・アレイ設置計画',
+   question:'太陽光発電設備における太陽電池アレイの設置に係る計画の要点について、具体的に三つ記述せよ。',
+   official:true,
+   answers:[
+     {label:'解答①',text:'建物建設地において年間を通じ日影とならず日射量と発電効率が最大となる方位や傾斜角、及び耐風圧に考慮して配置する。'},
+     {label:'解答②',text:'屋上に併設される煙突やコージェネレーションシステム等の、高温となる設備からの離隔を確保して設置する。'},
+     {label:'解答③',text:'アレイの架台は太陽電池用支持物設計基準に示す強度を確保する。'}
+   ]},
+  {year:'R3',year_label:'R3（2021年）',q_num:'10',field:'共通・省エネ',theme:'コージェネレーションシステム計画',
+   question:'コージェネレーションシステムにおいて、運転方式について二つ、排熱温水の有効利用の方法について一つ、具体的に記述せよ。',
+   official:true,
+   answers:[
+     {label:'運転方式①',text:'年間を通じて負荷変動の少ない電力の供給を主体とした電主熱従運転とする。'},
+     {label:'運転方式②',text:'ベースロードを負担し最大容量で長時間運転できるようにする。'},
+     {label:'排熱温水の有効利用',text:'利用設備側の要求温度レベルの高い順にカスケードに利用する。'}
+   ]},
+  {year:'R3',year_label:'R3（2021年）',q_num:'11',field:'共通・省エネ',theme:'設備諸室配置計画',
+   question:'地階の設備室スペースに設ける空調熱源設備室、給水設備室及び受変電設備室の配置に係る計画の要点について、それぞれ具体的に二つずつ記述せよ。',
+   official:true,
+   answers:[
+     {label:'空調熱源設備室①',text:'排熱投入型ガス吸収冷温水機や水冷チリングユニット等の大型機器の搬出入を考慮し、ドライエリアに接して計画を行う。'},
+     {label:'空調熱源設備室②',text:'計画された煙突位置までの煙道ルートを考慮した計画を行う。'},
+     {label:'給水設備室①',text:'飲料水受水槽上部に飲料水以外の配管は通過できないことから、①1階の厨房や便所などがない位置、②主SS近傍を避けた空調配管が上部を通らない位置、に配置する。'},
+     {label:'給水設備室②',text:'下部に雑用水槽ピットが配置されるように計画を行う。'},
+     {label:'受変電設備室①',text:'漏水に伴う事故を避けるため、上部に厨房や便所などの排水を伴う室の下部を避けて配置計画を行う。'},
+     {label:'受変電設備室②',text:'専用不燃区画を形成するため、他用途のダクトや配管が内部を横断しないように計画する。'}
+   ]},
+
+  // ─── 2026年 予想問題 ───
+  {year:'2026予想',year_label:'2026年（予想）',q_num:'1',field:'空調・換気',theme:'客室空調・換気設備（★★★）',
+   question:'客室に設ける空調・換気設備の計画について、その要点を具体的に三つ述べよ。',
+   official:false,predicted:true,
+   answers:[
+     {label:'解答①',text:'ファンコイルユニット（FCU）方式を採用し、客室ごとに在室者が温度を個別設定できる計画とする。FCUのフィルターは定期清掃が容易な構造とする。'},
+     {label:'解答②',text:'換気は外気処理ユニット（OA処理空調機）またはFCU外気導入方式とし、CO₂濃度が1,000ppm以下となる新鮮外気量を確保する。'},
+     {label:'解答③',text:'浴室・トイレは排気量>給気量として客室に対して負圧（陰圧）を維持し、臭気・湿気が客室に流入しないようにする。'},
+     {label:'解答④（参考）',text:'省エネのため客室の不在時には空調を低減するカードキースイッチ連動制御（省エネモード切替）を採用する。'}
+   ]},
+  {year:'2026予想',year_label:'2026年（予想）',q_num:'2',field:'空調・換気',theme:'大宴会場空調設備（★★★）',
+   question:'大宴会場に設ける空調設備の計画について、その要点を具体的に三つ述べよ。',
+   official:false,predicted:true,
+   answers:[
+     {label:'解答①',text:'在室人員の変動が大きいため変風量（VAV）単一ダクト方式を採用し、CO₂センサーによる外気導入量制御（DCV）を組み合わせて省エネを図る。'},
+     {label:'解答②',text:'宴会・会議・展示等の用途変更に対応するため、複数の照明・空調シーンを設定できる調光・変風量システムとする。'},
+     {label:'解答③',text:'単独の空調系統とし、短時間での予冷・予熱が可能な容量の空調機を選定する。間欠使用時の省エネのため不在時は最小換気量モードへ切り替える。'},
+     {label:'解答④（参考）',text:'天井が高く上下温度差が生じやすいため、制気口の配置・吹出方向に留意し居住域の均一な温熱環境を確保する。'}
+   ]},
+  {year:'2026予想',year_label:'2026年（予想）',q_num:'3',field:'給排水衛生',theme:'給湯設備省エネ計画（★★★）',
+   question:'中央式給湯設備の計画について、省エネルギーの観点から、その要点を具体的に三つ述べよ。',
+   official:false,predicted:true,
+   answers:[
+     {label:'解答①',text:'コージェネレーション設備の排熱（ガスエンジン排ガス熱・冷却水熱）を一次熱源として給湯加熱に活用し、補助熱源（ボイラー等）への依存を低減して一次エネルギー消費量を削減する。'},
+     {label:'解答②',text:'配管は循環給湯方式（返湯管設置）とし、末端器具での出湯待ち時間を解消するとともに配管の熱損失を低減する。配管・貯湯槽には断熱材を施工する。'},
+     {label:'解答③',text:'給湯温度は60℃以上に維持してレジオネラ属菌の繁殖を防止し、定期的な貯湯槽の清掃・水質検査を実施する。'},
+     {label:'解答④（参考）',text:'ヒートポンプ給湯機（自然冷媒HP）を補助加熱に採用し、電気ヒーター等と比較して高いCOPで効率的な加熱を行う。'}
+   ]},
+  {year:'2026予想',year_label:'2026年（予想）',q_num:'4',field:'給排水衛生',theme:'浴槽循環ろ過設備（★★★）',
+   question:'浴槽に設ける循環ろ過設備の計画について、その要点を具体的に三つ述べよ。',
+   official:false,predicted:true,
+   answers:[
+     {label:'解答①',text:'ヘアキャッチャー・ろ過器（砂ろ過または珪藻土ろ過）・循環ポンプ・加熱用熱交換器・薬液注入装置をフロー順に設置し、浴槽容量をターンオーバー時間（公衆浴場等：1回転/時間以内）で除した循環湯量を確保する。'},
+     {label:'解答②',text:'次亜塩素酸ナトリウム等の塩素系薬液の自動注入装置を設け、浴槽水の残留塩素濃度を0.4mg/L以上に常時維持してレジオネラ属菌の繁殖を防止する。浴槽は定期的（週1回以上）に清掃・消毒を実施する。'},
+     {label:'解答③',text:'ろ過器のバックウォッシュ（逆洗）排水のための配管と排水設備を設け、定期的にろ材を洗浄する。'},
+     {label:'解答④（参考）',text:'配管材料は温浴水（高温・塩素）に対する耐食性の高いステンレス鋼管（SUS316L等）または塩ビライニング鋼管を採用する。'}
+   ]},
+  {year:'2026予想',year_label:'2026年（予想）',q_num:'5',field:'電気',theme:'大宴会場照明設備（★★★）',
+   question:'大宴会場に設ける照明設備（非常用の照明装置及び誘導灯を除く）の計画について、その要点を具体的に三つ述べよ。',
+   official:false,predicted:true,
+   answers:[
+     {label:'解答①',text:'宴会・会議・展示・パーティー等の多様な用途に対応するため、調光システムを採用して複数の照明シーン（宴会：300〜500lx、会議：750lx等）を設定できる計画とする。'},
+     {label:'解答②',text:'LED照明器具を採用し、JIS Z 9110に基づく設計照度を確保するとともに、UGR（不快グレア指数）≦19を満足するグレア抑制型器具を採用する。'},
+     {label:'解答③',text:'シャンデリアや高天井器具は昇降装置付きとして点検・清掃・ランプ交換の保守管理を容易にする。'},
+     {label:'解答④（参考）',text:'在室検知センサー（人感センサー）との連動制御により、バックヤード・廊下等の不在時の自動消灯・減光を行い省エネを図る。'}
+   ]},
+  {year:'2026予想',year_label:'2026年（予想）',q_num:'6',field:'電気',theme:'太陽光発電設備（★★★）',
+   question:'太陽光発電設備の計画について、その要点を具体的に三つ述べよ。',
+   official:false,predicted:true,
+   answers:[
+     {label:'解答①',text:'屋上・屋根の有効設置面積と建設地の月別日射量から月間・年間発電量を算定し、太陽電池アレイの容量とパワーコンディショナー（PCS）の容量を決定する。'},
+     {label:'解答②',text:'系統連系型（逆潮流あり）とし、余剰電力の売電が可能なシステムとする。孤島運転防止保護装置を設置し電力系統の安全を確保する。停電時の自立運転機能を設け、防災時の電源として活用する計画とする。'},
+     {label:'解答③',text:'太陽電池アレイの設置傾斜角（緯度に応じた最適角度）・方位（真南向き）を最適化し、隣接する設備機器・建物等による日陰（シェーディング）の影響を最小化する。アレイ間隔は冬至日の日影が隣列に影響しない間隔とする。'},
+     {label:'解答④（参考）',text:'架台はJIS C 8955（太陽電池アレイ用支持物設計標準）に基づく強度を確保し、耐風圧・耐積雪・耐腐食の仕様とする。'}
+   ]},
+  {year:'2026予想',year_label:'2026年（予想）',q_num:'7',field:'消防・防災',theme:'排煙機風量算定・排煙設備計画（★★★）',
+   question:'「大宴会場」「廊下」「前室」の3室について、1台の排煙機による機械排煙設備を計画する場合の排煙機の必要最小風量を求めよ。ただし、防煙区画面積は各室の床面積（大宴会場800㎡・廊下100㎡・前室50㎡）とし、排煙機の必要最小風量には10%の余裕率を見込むものとする。また、当該3室における排煙設備の計画について、その要点を述べよ。',
+   official:false,predicted:true,
+   answers:[
+     {label:'風量算定',text:'最大防煙区画は大宴会場800㎡\n必要最小風量 = 800(㎡)×2(m³/min/㎡)×60(min/h)×1.1\n             = 105,600 m³/h'},
+     {label:'排煙計画①',text:'大宴会場（500㎡超）は防煙たれ壁により500㎡以下に防煙区画を設け、各区画に排煙口を配置する。'},
+     {label:'排煙計画②',text:'排煙口は床面から2.1m以上の高さに設け、防煙区画内の各部分から水平距離30m以内に配置する。手動開放装置は壁面の高さ0.8〜1.5mに設置する。'},
+     {label:'排煙計画③',text:'排煙機は耐熱仕様（280℃で30分以上連続運転可能）とし、自動火災報知設備と連動して自動起動する電動機直結型を採用する。'}
+   ]},
+  {year:'2026予想',year_label:'2026年（予想）',q_num:'8',field:'消防・防災',theme:'スプリンクラー設備（★★★）',
+   question:'スプリンクラー設備の計画について、その要点を具体的に三つ述べよ。',
+   official:false,predicted:true,
+   answers:[
+     {label:'解答①',text:'ホテル（消防法別表第1(5)項イ）は延べ面積300㎡以上でスプリンクラー設備の設置が義務付けられるため、全館に閉鎖型湿式スプリンクラー設備を設置する。スプリンクラーが免除となる便所・階段等の部分には補助散水栓を設ける。'},
+     {label:'解答②',text:'水源容量はヘッド10個同時開放（1,600L/min×10分=16m³以上）を確保し、スプリンクラーポンプの流量は900L/min以上とする。ポンプは専用の消火設備室（ポンプ室）に設置する。'},
+     {label:'解答③',text:'ヘッドは標準型（警戒半径2.3m）を基本とし、客室や廊下等の低天井部は標準型、大宴会場等の高天井部（4m以上）は大空間用（高感度型）またはラージドロップ型を選定する。'},
+     {label:'解答④（参考）',text:'配管は亜鉛メッキ鋼管（SGP-W）またはステンレス鋼管を使用し、腐食対策を施す。末端試験弁を設け、定期的な放水試験が実施できる計画とする。'}
+   ]},
+  {year:'2026予想',year_label:'2026年（予想）',q_num:'9',field:'共通・省エネ',theme:'コージェネレーションシステム（★★）',
+   question:'コージェネレーションシステムの計画について、その要点を具体的に三つ述べよ。',
+   official:false,predicted:true,
+   answers:[
+     {label:'解答①',text:'電主熱従方式を基本とし、ガスエンジン（またはガスタービン）で発電した電力は建物内で自家消費する。発電時の排熱（排ガス熱・冷却水熱）を給湯・暖房・吸収式冷凍機の駆動熱源として有効利用することで、総合エネルギー効率を向上させる。'},
+     {label:'解答②',text:'コジェネレーション設備が停止した場合でも電力・熱の供給が継続できるよう、商用電力系統との系統連系と補助熱源（ボイラー等）・補助冷熱源を確保する。'},
+     {label:'解答③',text:'ガスエンジン発電機は専用の機械室（遮音・防振・給排気対策施工）に設置する。排気ガスは排熱回収器を介した後、屋外に排出するルートを確保する。'},
+     {label:'解答④（参考）',text:'省エネ効果として一次エネルギー消費量削減量・CO₂排出量削減量を算定し、設備コストとのライフサイクルコスト分析を行い経済的効果を定量評価する。'}
+   ]},
+  {year:'2026予想',year_label:'2026年（予想）',q_num:'10',field:'共通・省エネ',theme:'非常用自家発電設備（★★）',
+   question:'非常用自家発電設備の計画について、その要点を具体的に三つ述べよ。',
+   official:false,predicted:true,
+   answers:[
+     {label:'解答①',text:'消防法・建築基準法の法定負荷（消防設備・非常用照明・排煙設備等）に加え、ホテルの業務継続に必要な重要負荷（フロント・厨房・エレベーター等）を40秒以内に非常電源として供給できるシステムを計画する。'},
+     {label:'解答②',text:'発電機（ディーゼルまたはガスエンジン）は専用の耐火区画された発電機室に設置する。室内には給排気設備（吸気ルーバー・排熱ファン・排気管）を設け、燃焼用空気の確保と発熱による室温上昇（40℃以下）を防止する。'},
+     {label:'解答③',text:'主燃料タンクの容量は、消防法で規定される連続運転時間（スプリンクラー設備等の消防用設備は2時間、非常用エレベーター等は24時間）を確保できる容量以上とし、燃料の定期点検・補充を実施する。'},
+     {label:'解答④（参考）',text:'発電機は月1回以上の試験運転と年1回以上の総合点検を実施し、確実に起動・運転できる状態を維持する。'}
+   ]},
+  {year:'2026予想',year_label:'2026年（予想）',q_num:'11',field:'共通・省エネ',theme:'設備諸室配置計画（★★★）',
+   question:'地階の設備室スペースに設ける設備諸室（空調熱源設備室、飲料水設備室（受水槽室）、雑用水設備室、受変電設備室及び非常用自家発電設備室）の配置に係る計画の要点について、具体的に五つ記述せよ。ただし、五つの記述は、配置計画上の考慮すべき事項ごとに記述すること。',
+   official:false,predicted:true,
+   answers:[
+     {label:'要点①【防水区画】',text:'受水槽室・雑用水設備室は漏水時の浸水対策として他の設備室と防水区画（防水壁・防水扉）で分離する。床面は二重防水とし、排水溝・ドレンポンプを設ける。'},
+     {label:'要点②【外気取入・排気】',text:'空調熱源設備室は冷却塔用の外気取入口・排気口を外壁に面して設ける。取入口と排気口が近接しないよう短絡（ショートサーキット）を防止する配置とする。受変電設備室・発電機室も換気のための外気取入・排熱排気口を確保する。'},
+     {label:'要点③【機器搬出入路】',text:'大型機器（変圧器・発電機・熱源機等）の搬出入のためのルート（搬出入口・搬入ハッチ・クレーン設備）を各設備室に確保する。廊下幅・扉開口寸法は最大搬入機器サイズ以上とする。'},
+     {label:'要点④【防振・騒音対策】',text:'空調熱源設備室・発電機室は振動・騒音が客室や共用部に伝播しないよう、居室・客室から遠ざけた位置に配置する。機器は防振架台・防振継手を使用し、壁・床は遮音構造とする。'},
+     {label:'要点⑤【近接禁止・電気室乾燥確保】',text:'受変電設備室・発電機室は浸水リスクのある受水槽室・雑用水室・排水槽から十分な距離を確保する（直上・隣接を避ける）。電気室内は乾燥状態を維持し換気設備を設ける。'}
+   ]}
+];
+
+var TOTAL = QUESTIONS.length;
+document.getElementById('totalCount').textContent = TOTAL;
+
+var HIST_KEY = 'hotel_2ji_hist_v1';
+var FCOL = {'空調・換気':'#4f9cf9','給排水衛生':'#22c55e','電気':'#f97316','消防・防災':'#ef4444','共通・省エネ':'#a78bfa'};
+var FBG  = {'空調・換気':'#1e3a5f','給排水衛生':'#1e3d2f','電気':'#3d2a1e','消防・防災':'#3d1e1e','共通・省エネ':'#2e2e3d'};
+
+function loadHist(){try{return JSON.parse(localStorage.getItem(HIST_KEY)||'{}');}catch(e){return{};}}
+function saveHist(h){localStorage.setItem(HIST_KEY,JSON.stringify(h));}
+function qid(q){return q.year+'_'+q.q_num;}
+function getSt(q){return loadHist()[qid(q)]||'';}
+function setSt(q,st){var h=loadHist(),k=qid(q);if(st==='')delete h[k];else h[k]=st;saveHist(h);}
+
+var curField='all',curYear='all',curQid=null;
+function getFiltered(){
+  return QUESTIONS.filter(function(q){
+    return(curField==='all'||q.field===curField)&&(curYear==='all'||q.year===curYear);
+  });
+}
+
+// ===== TABS =====
+document.getElementById('tab-practice').addEventListener('click',function(){switchTab('practice');});
+document.getElementById('tab-history').addEventListener('click',function(){switchTab('history');});
+document.getElementById('tab-glossary').addEventListener('click',function(){switchTab('glossary');});
+function switchTab(tab){
+  document.getElementById('tab-practice').classList.toggle('active',tab==='practice');
+  document.getElementById('tab-history').classList.toggle('active',tab==='history');
+  document.getElementById('tab-glossary').classList.toggle('active',tab==='glossary');
+  document.getElementById('practiceView').style.display=tab==='practice'?'flex':'none';
+  document.getElementById('historyView').style.display=tab==='history'?'block':'none';
+  document.getElementById('glossaryView').style.display=tab==='glossary'?'block':'none';
+  if(tab==='history')renderHistory();
+  if(tab==='glossary')renderGlossary();
+}
+
+// ===== SIDEBAR =====
+document.getElementById('fieldTabs').addEventListener('click',function(e){
+  var t=e.target.closest('.field-tab');if(!t)return;setField(t.dataset.f);
+});
+document.querySelector('.year-grid').addEventListener('click',function(e){
+  var t=e.target.closest('.year-btn');if(!t)return;setYear(t.dataset.y);
+});
+function setField(f){
+  curField=f;
+  document.querySelectorAll('.field-tab').forEach(function(el){el.classList.toggle('active',el.dataset.f===f);});
+  renderList();clearMain();
+}
+function setYear(y){
+  curYear=y;
+  document.querySelectorAll('.year-btn').forEach(function(el){el.classList.toggle('active',el.dataset.y===y);});
+  renderList();clearMain();
+}
+function clearMain(){
+  curQid=null;
+  document.getElementById('emptyState').style.display='flex';
+  document.getElementById('qPanel').style.display='none';
+}
+
+// ===== Q LIST =====
+function renderList(){
+  var filtered=getFiltered(),hist=loadHist();
+  var cf={'空調・換気':0,'給排水衛生':0,'電気':0,'消防・防災':0,'共通・省エネ':0};
+  QUESTIONS.filter(function(q){return curYear==='all'||q.year===curYear;}).forEach(function(q){cf[q.field]++;});
+  document.getElementById('fc-all').textContent=Object.values(cf).reduce(function(a,b){return a+b;},0);
+  document.getElementById('fc-空調').textContent=cf['空調・換気'];
+  document.getElementById('fc-給排水').textContent=cf['給排水衛生'];
+  document.getElementById('fc-電気').textContent=cf['電気'];
+  document.getElementById('fc-消防').textContent=cf['消防・防災'];
+  document.getElementById('fc-共通').textContent=cf['共通・省エネ'];
+  var list=document.getElementById('qList');
+  if(!filtered.length){list.innerHTML='<div style="text-align:center;color:var(--text-sub);padding:18px;font-size:10px">該当なし</div>';return;}
+  list.innerHTML=filtered.map(function(q){
+    var id=qid(q),st=hist[id]||'',col=FCOL[q.field]||'#888';
+    var dc=st==='done'?'status-dot status-done':st==='review'?'status-dot status-review':'status-dot';
+    var ds=st?'':'background:transparent;border:1px solid var(--border)';
+    var sq=q.question.length>34?q.question.slice(0,34)+'…':q.question;
+    var predMark=q.predicted?'<span style="font-size:8px;color:#a78bfa;margin-left:3px">予</span>':'';
+    return'<div class="q-item" data-qid="'+esc(id)+'">'
+      +'<span class="q-num-b" style="background:'+col+'">'+esc(q.q_num)+'</span>'
+      +'<div class="q-item-inner">'
+        +'<div class="q-yr-tag">'+esc(q.year_label)+predMark+'</div>'
+        +'<div class="q-item-text">'+esc(sq)+'</div>'
+      +'</div><div class="'+dc+'" style="'+ds+'"></div></div>';
+  }).join('');
+  list.querySelectorAll('.q-item').forEach(function(el){
+    el.addEventListener('click',function(){selectQ(el.dataset.qid);});
+  });
+}
+
+// ===== SELECT Q =====
+function selectQ(id){
+  var parts=id.split('_'),yr=parts[0],qn=parts.slice(1).join('_');
+  // year+q_num でマッチ
+  var q=QUESTIONS.find(function(x){return qid(x)===id;});if(!q)return;
+  curQid=id;
+  document.querySelectorAll('.q-item').forEach(function(el){el.classList.remove('active');});
+  var li=document.querySelector('.q-item[data-qid="'+id+'"]');
+  if(li){li.classList.add('active');li.scrollIntoView({block:'nearest'});}
+  document.getElementById('emptyState').style.display='none';
+  document.getElementById('qPanel').style.display='flex';
+  var col=FCOL[q.field]||'#888',bg=FBG[q.field]||'#1a1d27';
+  var st=getSt(q);
+  var stBadge=st==='done'?'<span class="status-badge sb-done">✅ 完了</span>'
+    :st==='review'?'<span class="status-badge sb-review">🔁 要復習</span>':'';
+  var predBadge=q.predicted?'<span class="predicted-badge">2026予想</span>':'';
+  var officialTxt=q.official?'（公式解答例）':q.predicted?'（AI予想解答例）':'（AI参考解答例）';
+  document.getElementById('qHeaderTop').innerHTML=
+    '<span class="q-badge-lg" style="background:'+col+'">第'+esc(q.q_num)+'問</span>'
+    +'<span class="tag" style="background:color-mix(in srgb,'+bg+' 70%,transparent);color:'+col+'">'+esc(q.field)+'</span>'
+    +'<span class="tag" style="background:rgba(136,146,176,.12);color:var(--text-sub)">'+esc(q.year_label)+'</span>'
+    +'<span class="tag" style="background:rgba(136,146,176,.08);color:var(--text-sub);font-size:9px">'+esc(q.theme)+'</span>'
+    +predBadge+stBadge;
+  document.getElementById('qQuestion').textContent=q.question;
+  document.getElementById('officialLabel').textContent=officialTxt;
+  document.getElementById('answerScroll').innerHTML=q.answers.map(function(a){
+    return'<div class="ans-item">'
+      +'<div class="ans-item-label">▶ '+esc(a.label)+'</div>'
+      +'<div class="ans-item-text">'+esc(a.text)+'</div></div>';
+  }).join('');
+  hideAns();
+  clearCanvas();
+  setTimeout(initCanvasSize,80);
+}
+
+// ===== ANSWER PANE =====
+function showAns(){
+  document.getElementById('answerPane').classList.add('visible');
+  document.getElementById('btnShowAns').style.display='none';
+}
+function hideAns(){
+  document.getElementById('answerPane').classList.remove('visible');
+  document.getElementById('btnShowAns').style.display='';
+}
+document.getElementById('btnShowAns').addEventListener('click',showAns);
+document.getElementById('btnHideAns').addEventListener('click',hideAns);
+
+// ===== CANVAS =====
+var canvas,ctx,isDrawing=false,eraserMode=false,penSize=2;
+var lastX=0,lastY=0;
+function initCanvas(){
+  canvas=document.getElementById('drawCanvas');
+  ctx=canvas.getContext('2d');
+  ctx.lineCap='round';ctx.lineJoin='round';
+  canvas.addEventListener('mousedown',function(e){isDrawing=true;var p=getPos(e);lastX=p.x;lastY=p.y;drawDot(p);});
+  canvas.addEventListener('mousemove',function(e){if(!isDrawing)return;var p=getPos(e);drawLine(lastX,lastY,p.x,p.y);lastX=p.x;lastY=p.y;});
+  canvas.addEventListener('mouseup',function(){isDrawing=false;});
+  canvas.addEventListener('mouseleave',function(){isDrawing=false;});
+  canvas.addEventListener('touchstart',function(e){e.preventDefault();isDrawing=true;var p=getPos(e.touches[0]);lastX=p.x;lastY=p.y;drawDot(p);},{passive:false});
+  canvas.addEventListener('touchmove',function(e){e.preventDefault();if(!isDrawing)return;var p=getPos(e.touches[0]);drawLine(lastX,lastY,p.x,p.y);lastX=p.x;lastY=p.y;},{passive:false});
+  canvas.addEventListener('touchend',function(){isDrawing=false;});
+  canvas.addEventListener('touchcancel',function(){isDrawing=false;});
+  canvas.addEventListener('contextmenu',function(e){e.preventDefault();},{passive:false});
+  document.getElementById('penThin').addEventListener('click',function(){setPen(2,this);});
+  document.getElementById('penMed').addEventListener('click',function(){setPen(4,this);});
+  document.getElementById('penThick').addEventListener('click',function(){setPen(7,this);});
+  document.getElementById('eraserBtn').addEventListener('click',toggleEraser);
+  document.getElementById('clearCanvasBtn').addEventListener('click',clearCanvas);
+}
+function drawDot(p){
+  if(eraserMode){var r=Math.max(penSize*4,12);ctx.clearRect(p.x-r,p.y-r,r*2,r*2);}
+  else{ctx.fillStyle='#e8eaf0';ctx.beginPath();ctx.arc(p.x,p.y,penSize/2,0,Math.PI*2);ctx.fill();}
+}
+function drawLine(x1,y1,x2,y2){
+  if(eraserMode){var r=Math.max(penSize*4,12);ctx.clearRect(x2-r,y2-r,r*2,r*2);}
+  else{ctx.strokeStyle='#e8eaf0';ctx.lineWidth=penSize;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();}
+}
+function getPos(e){
+  var r=canvas.getBoundingClientRect(),scaleX=canvas.width/r.width,scaleY=canvas.height/r.height;
+  return{x:(e.clientX-r.left)*scaleX,y:(e.clientY-r.top)*scaleY};
+}
+function initCanvasSize(){
+  var wrap=document.getElementById('canvasWrap'),w=wrap.clientWidth,h=wrap.clientHeight;
+  if(w<=0||h<=0)return;
+  canvas.width=w;canvas.height=h;
+  ctx.lineCap='round';ctx.lineJoin='round';
+}
+function clearCanvas(){if(!canvas||!ctx)return;ctx.clearRect(0,0,canvas.width,canvas.height);}
+function setPen(sz,btn){
+  penSize=sz;eraserMode=false;
+  document.querySelectorAll('.pen-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  document.getElementById('eraserBtn').classList.remove('eraser-active');
+}
+function toggleEraser(){
+  eraserMode=!eraserMode;
+  document.getElementById('eraserBtn').classList.toggle('eraser-active',eraserMode);
+  if(eraserMode)document.querySelectorAll('.pen-btn').forEach(function(b){b.classList.remove('active');});
+  else document.getElementById('penThin').classList.add('active');
+}
+
+// ===== ACTION BUTTONS =====
+document.getElementById('btnDone').addEventListener('click',function(){markSt('done');});
+document.getElementById('btnReview').addEventListener('click',function(){markSt('review');});
+document.getElementById('btnNext').addEventListener('click',nextQ);
+function markSt(st){
+  if(!curQid)return;
+  var q=QUESTIONS.find(function(x){return qid(x)===curQid;});if(!q)return;
+  setSt(q,st);
+  var badge=st==='done'
+    ?'<span class="status-badge sb-done">✅ 完了</span>'
+    :'<span class="status-badge sb-review">🔁 要復習</span>';
+  var top=document.getElementById('qHeaderTop');
+  top.querySelectorAll('.status-badge').forEach(function(el){el.remove();});
+  top.insertAdjacentHTML('beforeend',badge);
+  renderList();
+  var li=document.querySelector('.q-item[data-qid="'+curQid+'"]');
+  if(li)li.classList.add('active');
+}
+function nextQ(){
+  var f=getFiltered();if(!curQid||!f.length)return;
+  var idx=f.findIndex(function(q){return qid(q)===curQid;});
+  selectQ(qid(f[(idx+1)%f.length]));
+}
+
+// 完了・要復習の消去
+document.getElementById('btnClearSt').addEventListener('click',function(){
+  if(!curQid)return;
+  var q=QUESTIONS.find(function(x){return qid(x)===curQid;});if(!q)return;
+  var st=getSt(q);
+  if(!st){return;}
+  setSt(q,'');
+  var top=document.getElementById('qHeaderTop');
+  top.querySelectorAll('.status-badge').forEach(function(el){el.remove();});
+  renderList();
+  var li=document.querySelector('.q-item[data-qid="'+curQid+'"]');
+  if(li)li.classList.add('active');
+});
+
+// ===== HISTORY =====
+function renderHistory(){
+  var hist=loadHist();
+  var dk=Object.keys(hist).filter(function(k){return hist[k]==='done';});
+  var rk=Object.keys(hist).filter(function(k){return hist[k]==='review';});
+  var st=dk.length+rk.length;
+  document.getElementById('st-total').textContent=TOTAL;
+  document.getElementById('st-done').textContent=dk.length;
+  document.getElementById('st-review').textContent=rk.length;
+  document.getElementById('st-pct').textContent=Math.round(st/TOTAL*100)+'%';
+  document.getElementById('prog-label').textContent=st+' / '+TOTAL+' 問';
+  document.getElementById('pb-done').style.width=(dk.length/TOTAL*100)+'%';
+  document.getElementById('pb-review').style.width=(rk.length/TOTAL*100)+'%';
+  var FIELDS=['空調・換気','給排水衛生','電気','消防・防災','共通・省エネ'];
+  var html='';
+  FIELDS.forEach(function(field){
+    var qs=QUESTIONS.filter(function(q){return q.field===field;});
+    var sq=qs.filter(function(q){var s=hist[qid(q)];return s==='done'||s==='review';});
+    var col=FCOL[field]||'#888';
+    html+='<div class="hist-section-title" style="color:'+col+'">'+field+'（'+sq.length+'/'+qs.length+'問学習済み）</div>';
+    if(!sq.length){html+='<div style="font-size:10px;color:var(--text-sub);padding:4px">まだ学習記録がありません</div>';return;}
+    html+='<div class="hist-grid">';
+    sq.sort(function(a,b){return a.year.localeCompare(b.year)||parseInt(a.q_num)-parseInt(b.q_num);})
+      .forEach(function(q){
+        var s=hist[qid(q)];
+        var sl=s==='done'?'<span class="hist-status hs-done">✅完了</span>':'<span class="hist-status hs-review">🔁復習</span>';
+        var pb=q.predicted?'<span style="font-size:8px;color:#a78bfa;margin-left:2px">予</span>':'';
+        html+='<div class="hist-card" data-field="'+esc(field)+'" data-qid="'+esc(qid(q))+'">'
+          +'<div class="hist-card-top"><span class="hist-q-badge" style="background:'+col+'">'+esc(q.q_num)+'</span>'
+          +'<span class="hist-year">'+esc(q.year_label)+'</span>'+pb+sl+'</div>'
+          +'<div class="hist-text">'+esc(q.question)+'</div></div>';
+      });
+    html+='</div>';
+  });
+  if(!html)html='<div class="no-hist">まだ学習記録がありません。</div>';
+  var con=document.getElementById('hist-by-field');
+  con.innerHTML=html;
+  con.querySelectorAll('.hist-card').forEach(function(card){
+    card.addEventListener('click',function(){
+      switchTab('practice');
+      setTimeout(function(){setYear('all');setField(card.dataset.field);selectQ(card.dataset.qid);},50);
+    });
+  });
+}
+document.getElementById('clearHistBtn').addEventListener('click',function(){
+  if(!confirm('学習履歴をすべてリセットしますか？'))return;
+  localStorage.removeItem(HIST_KEY);renderList();renderHistory();
+});
+
+function esc(s){
+  if(s==null)return'';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/\n/g,'<br>');
+}
+
+
+// ===== 用語集データ =====
+var GLOSSARY = [
+  // ── 空調・換気 ──
+  {field:'空調・換気', category:'客室空調（FCU方式）',
+   term:'ファンコイルユニット（FCU）',
+   nums:'4管式・個別制御・カードキー連動省エネ',
+   explanation:'冷温水コイルと送風機で構成。客室は4管式（冷温同時供給）で在室者が個別に温度設定できる。カードキースイッチ連動で不在時に省エネモードへ切替。低騒音型を選定しベッドから離れた位置に設置、吹出方向も配慮する。'},
+  {field:'空調・換気', category:'客室空調（FCU方式）',
+   term:'外気処理ユニット（OAユニット）',
+   nums:'CO₂濃度 1,000ppm以下',
+   explanation:'各客室への新鮮外気供給用の空調機。FCUと組み合わせて使用し、CO₂濃度を1,000ppm以下に維持する必要最小限の外気量を供給する。'},
+  {field:'空調・換気', category:'客室空調（FCU方式）',
+   term:'浴室・トイレの負圧管理',
+   nums:'排気量 ＞ 給気量',
+   explanation:'客室に対して浴室・トイレを負圧（陰圧）に保つ。排気量を給気量より大きくすることで、臭気・湿気が客室へ流入しない計画とする。'},
+  {field:'空調・換気', category:'大宴会場・大空間空調',
+   term:'VAV（変風量）単一ダクト方式',
+   nums:'DCV（CO₂センサー）組み合わせ',
+   explanation:'在室人員変動の大きい大宴会場に適した空調方式。CO₂センサーによる外気導入量制御（DCV）を組み合わせて省エネを図る。単独系統とし短時間の予冷・予熱が可能な容量とする。'},
+  {field:'空調・換気', category:'大宴会場・大空間空調',
+   term:'防振・消音対策',
+   nums:'防振架台・フレキシブルジョイント・消音チャンバー',
+   explanation:'空調機器の振動・騒音対策として防振架台・フレキシブルジョイント・消音チャンバーを設ける。FCUは低騒音型を選定する。'},
+  {field:'空調・換気', category:'省エネ手法',
+   term:'外気冷房（エコノマイザサイクル）',
+   nums:'中間期・冬期に有効',
+   explanation:'外気エンタルピーが室内設定値より低い中間期・冬期に、冷凍機を使用せず外気で冷却する。冷凍機運転時間を削減できるため省エネとなる。'},
+  {field:'空調・換気', category:'省エネ手法',
+   term:'CO₂濃度制御（DCV）',
+   nums:'設定値 1,000ppm以下・外気量を自動制御',
+   explanation:'室内CO₂濃度センサーにより必要最小限の外気量を自動制御する手法。閑散時に外気量を絞ることで外気処理エネルギーを削減できる。'},
+  {field:'空調・換気', category:'排気フード（厨房）',
+   term:'有効換気量計算式（建基法）',
+   nums:'V = nkQ　n=20または30、k=0.93m³/(kW·h)',
+   explanation:'V（m³/h）= nkQ\nn：フード形状係数（20または30）\nk：理論排ガス量（0.93m³/（kW·h））\nQ：調理機器燃料消費量（kW）\n面風速は0.3m/s以上。グリス除去装置（グリスフィルター）を設置。ステンレス製・板厚1.0mm以上。'},
+  {field:'空調・換気', category:'機械排煙設備',
+   term:'排煙機必要最小風量の算定式',
+   nums:'最大区画面積×2m³/min/㎡×60min/h×1.1',
+   explanation:'排煙機の必要最小風量 ＝ 最大防煙区画面積(㎡) × 2(m³/min/㎡) × 60(min/h) × 1.1（余裕率10%）\n大宴会場800㎡の場合：800×2×60×1.1 ＝ 105,600 m³/h'},
+  {field:'空調・換気', category:'機械排煙設備',
+   term:'排煙口の設置基準',
+   nums:'床面2.1m以上・区画内30m以内',
+   explanation:'排煙口は床面から2.1m以上の高さに設置。防煙区画（500㎡以下）内の各部分から水平距離30m以内に配置する。手動開放装置は壁面高さ0.8〜1.5mに設置。'},
+  {field:'空調・換気', category:'機械排煙設備',
+   term:'排煙機の仕様',
+   nums:'耐熱280℃・30分以上連続運転・自火報連動',
+   explanation:'排煙機は耐熱仕様（280℃で30分以上連続運転可能）とし、自動火災報知設備と連動して自動起動する電動機直結型（または耐熱性の高いVベルト型）を採用。'},
+
+  // ── 給排水衛生 ──
+  {field:'給排水衛生', category:'給湯設備',
+   term:'レジオネラ属菌防止温度',
+   nums:'給湯温度 60℃以上維持',
+   explanation:'中央式給湯設備は給湯温度を60℃以上に維持することでレジオネラ属菌の繁殖を防止。定期的な貯湯槽の清掃・水質検査も実施する。'},
+  {field:'給排水衛生', category:'給湯設備',
+   term:'循環給湯（返湯管）方式',
+   nums:'末端出湯時間短縮・熱損失低減',
+   explanation:'返湯管を設けて循環させることで末端器具での出湯待ち時間を解消し、配管の熱損失を低減する。配管・貯湯槽には断熱材を施工する。'},
+  {field:'給排水衛生', category:'給湯設備',
+   term:'コージェネ排熱の給湯利用',
+   nums:'一次エネルギー削減・補助熱源を確保',
+   explanation:'コージェネレーション設備の排熱（排ガス熱・冷却水熱）を給湯加熱の一次熱源として活用し、補助熱源（ボイラー等）への依存を低減して一次エネルギー消費量を削減する。'},
+  {field:'給排水衛生', category:'給湯設備',
+   term:'配管材料',
+   nums:'銅管・ステンレス鋼管（SUS316L）',
+   explanation:'高温・塩素に対する耐食性の高い銅管またはステンレス鋼管を採用。熱膨張対策としてエキスパンションループ等を施す。'},
+  {field:'給排水衛生', category:'浴槽循環ろ過設備',
+   term:'循環ろ過設備の処理フロー',
+   nums:'還水口→ヘアキャッチャー→熱交換器→循環ポンプ→薬液注入→ろ過器→吐出口',
+   explanation:'還水口 → ヘアキャッチャー → 熱交換器 → 循環ポンプ → 薬液注入装置 → ろ過器 → 吐出口\nターンオーバー時間（公衆浴場：1回転/時間以内）で循環する湯量を確保する。'},
+  {field:'給排水衛生', category:'浴槽循環ろ過設備',
+   term:'残留塩素濃度',
+   nums:'0.4mg/L以上を常時維持',
+   explanation:'次亜塩素酸ナトリウム等の塩素系薬液の自動注入装置により、浴槽水の残留塩素濃度を0.4mg/L以上に常時維持してレジオネラ属菌の繁殖を防止する。'},
+  {field:'給排水衛生', category:'浴槽循環ろ過設備',
+   term:'逆洗（バックウォッシュ）',
+   nums:'定期的実施・ろ過器は浴槽水面より低い位置',
+   explanation:'ろ過器のバックウォッシュ（逆洗）排水のための配管と排水設備を設ける。ろ過器本体は浴槽水面より低いレベルに設置する。'},
+  {field:'給排水衛生', category:'飲料水給水設備',
+   term:'受水槽の有効容量',
+   nums:'1日使用水量の1/2以上・六面点検可能',
+   explanation:'受水槽の有効容量は1日使用水量の1/2以上を確保し、六面点検可能な構造とする。クロスコネクション防止・吐水口空間を確保し飲料水と雑用水を完全分離する。'},
+  {field:'給排水衛生', category:'飲料水給水設備',
+   term:'給水圧制御',
+   nums:'各階給水圧 0.3MPa以下に制御・減圧弁使用',
+   explanation:'各階給水圧を0.3MPa以下に制御するため適所に減圧弁を設ける。節水型器具を採用し水使用量を削減する。'},
+  {field:'給排水衛生', category:'雨水利用設備',
+   term:'雨水処理フロー',
+   nums:'ルーフドレン→スクリーン→沈砂槽→貯留槽→ろ過→消毒',
+   explanation:'屋上雨水：ルーフドレン→スクリーン→沈砂槽→雨水貯留槽→ろ過装置→消毒装置→雑用水（便器洗浄・散水等）\n初期降雨はファーストフラッシュ装置で排除する。'},
+  {field:'給排水衛生', category:'雨水利用設備',
+   term:'集水量算定式',
+   nums:'集水量 = 集水面積×降水量×流出係数',
+   explanation:'集水量 ＝ 集水面積（㎡）× 降水量（m）× 流出係数\n使用量と対比して貯留槽容量を設定する。飲料水系統との完全分離・色分け・水質検査（大腸菌群・濁度等）が必要。'},
+  {field:'給排水衛生', category:'排水通気設備',
+   term:'1階・最低階の排水系統',
+   nums:'立管に接続せず単独排水が原則',
+   explanation:'1階・最低階の排水横主管と上階の排水管は立管に接続せず、単独排水とする。排水種類・水質・周囲状況により適切な配管材料を選択。高温排水は伸縮を考慮した曲りを設ける。'},
+
+  // ── 電気 ──
+  {field:'電気', category:'照明設備',
+   term:'UGR（不快グレア指数）',
+   nums:'UGR ≦ 19（事務・宴会室基準）',
+   explanation:'不快グレア指数（Unified Glare Rating）。大宴会場・事務室などはUGR≦19を満足するグレア抑制型器具を採用する。均斉度（最小/平均）も≧0.7を確保。'},
+  {field:'電気', category:'照明設備',
+   term:'推奨照度（JIS Z 9110）',
+   nums:'ロビー200〜500lx・会議750lx・宴会300〜500lx',
+   explanation:'ロビー：200〜500lx（チェックインカウンターは500〜750lx）\n大宴会場（宴会）：300〜500lx、（会議）：750lx\n演色性Ra90以上のLED器具を採用。'},
+  {field:'電気', category:'照明設備',
+   term:'高天井器具の保守管理',
+   nums:'昇降装置（電動昇降ユニット）またはキャットウォーク',
+   explanation:'宴会場のシャンデリアや高天井器具は昇降装置付きとして点検・清掃・ランプ交換の保守管理を容易にする。調光システムで複数照明シーンを設定する。'},
+  {field:'電気', category:'太陽光発電設備',
+   term:'発電量算定',
+   nums:'設置面積×日射量→月間・年間発電量→PCS容量決定',
+   explanation:'屋上有効設置面積と建設地の月別日射量から月間・年間発電量を算定し、パワーコンディショナー（PCS）の容量を決定する。'},
+  {field:'電気', category:'太陽光発電設備',
+   term:'系統連系と保護装置',
+   nums:'逆潮流あり・孤島運転防止・RPR・OVR/UVR/OFR/UFR',
+   explanation:'系統連系型（逆潮流あり）とし余剰電力の売電が可能。孤島運転防止保護装置（能動的+受動的）と逆電力継電器（RPR）、保護継電器（OVR・UVR・OFR・UFR）を設置。停電時自立運転機能も付与。'},
+  {field:'電気', category:'太陽光発電設備',
+   term:'アレイ設置角度・間隔',
+   nums:'傾斜角30°程度・真南向き・冬至日影外',
+   explanation:'最適設置傾斜角（緯度に応じ概ね30°）・方位（真南）を最適化。アレイ間隔は冬至日の日影が隣列に影響しない間隔とする。架台はJIS C 8955準拠の強度（耐風圧・耐積雪・耐腐食）。'},
+  {field:'電気', category:'コージェネレーション',
+   term:'電主熱従方式',
+   nums:'発電電力を自家消費・排熱を給湯/空調/吸収冷凍機へ',
+   explanation:'ガスエンジン（またはガスタービン）で発電した電力を建物内で自家消費し、発電時の排熱（排ガス熱・冷却水熱）を給湯・暖房・吸収式冷凍機の駆動熱源として有効利用する。総合エネルギー効率を向上させる。'},
+  {field:'電気', category:'コージェネレーション',
+   term:'バックアップ体制',
+   nums:'商用電力系統連系＋補助熱源（ボイラー等）を確保',
+   explanation:'コジェネ停止時でも電力・熱の供給が継続できるよう商用電力系統との系統連系と補助熱源（ボイラー等）・補助冷熱源を確保する。'},
+  {field:'電気', category:'コージェネレーション',
+   term:'設置室の要件',
+   nums:'遮音・防振・給排気・排熱回収器経由排気',
+   explanation:'ガスエンジン発電機は専用機械室（遮音・防振・給排気対策施工）に設置。排気ガスは排熱回収器を介した後、屋外に排出するルートを確保する。'},
+  {field:'電気', category:'動力幹線',
+   term:'電圧降下の許容値',
+   nums:'幹線 2%以下・分岐回路含む場合 4%以下',
+   explanation:'動力幹線の電圧降下は幹線で2%以下（分岐回路を含む場合4%以下）を確認してケーブルサイズを選定する。大容量機器には専用幹線を設ける。インバーター機器には高調波対策フィルターを設置。'},
+  {field:'電気', category:'避雷設備',
+   term:'保護方式と接地抵抗',
+   nums:'回転球法・保護角法・高さ60m超はメッシュ法・接地抵抗10Ω以下',
+   explanation:'JIS A 4201:2003準拠。回転球法・保護角法で受雷部（突針または棟上げ導体）を決定。高さ60m超の建物側面にはメッシュ法で受雷部を設ける。引下げ導線は外周均等配置、接地抵抗10Ω以下。'},
+
+  // ── 消防・防災 ──
+  {field:'消防・防災', category:'スプリンクラー設備',
+   term:'ホテルのSP設置義務',
+   nums:'別表1(5)項イ・延べ面積300㎡以上で全館義務',
+   explanation:'ホテル（消防法別表第1(5)項イ）は延べ面積300㎡以上でスプリンクラー設備の設置が義務付けられる。全館に閉鎖型湿式を設置し、便所・階段等の免除区画には補助散水栓を設ける。'},
+  {field:'消防・防災', category:'スプリンクラー設備',
+   term:'水源容量・ポンプ流量',
+   nums:'水源16m³以上（10個×1,600L/min×10分）・ポンプ900L/min以上',
+   explanation:'水源容量：ヘッド10個同時開放で1,600L/min×10分＝16m³以上\nポンプ流量：900L/min以上\n末端試験弁を設け定期的な放水試験を実施できる計画とする。'},
+  {field:'消防・防災', category:'スプリンクラー設備',
+   term:'ヘッドの選定',
+   nums:'標準型警戒半径2.3m・高天井4m以上は大空間用/ラージドロップ型',
+   explanation:'標準型（警戒半径2.3m）を基本とし、客室・廊下等の低天井部は標準型、大宴会場等の高天井部（4m以上）は大空間用（高感度型）またはラージドロップ型を選定する。高温場所は高温型ヘッド（誤作動防止）。'},
+  {field:'消防・防災', category:'誘導灯',
+   term:'誘導灯の等級と視認距離',
+   nums:'A級30m・B級20m・C級10m・20分点灯（高層等60分）',
+   explanation:'A級（視認距離30m）・B級（20m）・C級（10m）から視認距離に応じて選定。大空間・高天井はA級採用。蓄電池内蔵型で停電時20分以上点灯（地階・無窓階・11階以上は60分以上）。'},
+  {field:'消防・防災', category:'誘導灯',
+   term:'設置免除条件',
+   nums:'主要構造部耐火構造・床面積100㎡以下の居室等',
+   explanation:'主要構造部が耐火構造で床面積100㎡以下の居室等について消防法の設置免除規定を適用できる。'},
+  {field:'消防・防災', category:'非常用照明装置',
+   term:'設置基準と照度',
+   nums:'床面照度2lx以上・30分点灯（高層等60分）',
+   explanation:'建築基準法に基づき居室・廊下・階段等の避難経路に設置し床面照度2lx以上を確保する。LED器具で停電時30分以上（地階・無窓階・11階以上は60分以上）点灯。水気のある場所は防水型。'},
+  {field:'消防・防災', category:'自動火災報知設備',
+   term:'警戒区域の設定',
+   nums:'600㎡以下・一辺50m以下',
+   explanation:'警戒区域は床面積600㎡以下・一辺の長さ50m以下で設定する。受信機は常時監視可能な場所（中央監視室等）に設置する。感知器は設置環境に応じた種別（煙・熱・炎等）を選定する。'},
+  {field:'消防・防災', category:'防火ダンパー',
+   term:'排煙ダクト貫通部のFD',
+   nums:'温度ヒューズ280℃作動（排煙機直近は除く）',
+   explanation:'排煙ダクトの防火区画貫通部には280℃作動の防火ダンパーを設置する（排煙機直近は除く）。排煙ダクトは鋼板製（不燃材料）とする。'},
+
+  // ── 共通・省エネ ──
+  {field:'共通・省エネ', category:'設備諸室配置計画',
+   term:'防水区画（受水槽室・雑用水室）',
+   nums:'防水壁・防水扉・二重防水・排水溝・ドレンポンプ',
+   explanation:'受水槽室・雑用水設備室は漏水時の浸水対策として他の設備室と防水区画（防水壁・防水扉）で分離する。床面は二重防水とし、排水溝・ドレンポンプを設ける。'},
+  {field:'共通・省エネ', category:'設備諸室配置計画',
+   term:'外気取入・排気の計画',
+   nums:'ショートサーキット防止・取入口と排気口を離す',
+   explanation:'空調熱源設備室は冷却塔用の外気取入口・排気口を外壁に面して設ける。取入口と排気口が近接しないようショートサーキットを防止する。受変電室・発電機室も換気のための外気取入・排熱排気口を確保する。'},
+  {field:'共通・省エネ', category:'設備諸室配置計画',
+   term:'機器搬出入路の確保',
+   nums:'搬入ハッチ・クレーン・廊下幅は最大機器サイズ以上',
+   explanation:'大型機器（変圧器・発電機・熱源機等）の搬出入のためのルート（搬出入口・搬入ハッチ・クレーン設備）を各設備室に確保する。廊下幅・扉開口寸法は最大搬入機器サイズ以上とする。'},
+  {field:'共通・省エネ', category:'設備諸室配置計画',
+   term:'防振・騒音対策',
+   nums:'居室・客室から遠ざける・防振架台・遮音構造',
+   explanation:'空調熱源設備室・発電機室は振動・騒音が客室や共用部に伝播しないよう居室・客室から遠ざけた位置に配置する。機器は防振架台・防振継手を使用し、壁・床は遮音構造とする。'},
+  {field:'共通・省エネ', category:'設備諸室配置計画',
+   term:'電気室の近接禁止と乾燥確保',
+   nums:'受水槽・雑用水室・排水槽の直上・隣接を避ける',
+   explanation:'受変電設備室・発電機室は浸水リスクのある受水槽室・雑用水室・排水槽から十分な距離を確保する（直上・隣接を避ける）。電気室内は乾燥状態を維持し換気設備を設ける。'},
+  {field:'共通・省エネ', category:'非常用自家発電設備',
+   term:'法定負荷と起動時間',
+   nums:'40秒以内・消防設備2時間・非常用EV等24時間',
+   explanation:'消防法・建基法の法定負荷（消防設備・非常用照明・排煙等）＋重要負荷（フロント・厨房・EV等）を40秒以内に供給。主燃料タンク：消防用設備は2時間以上、非常用EV等は24時間以上の容量を確保。'},
+  {field:'共通・省エネ', category:'非常用自家発電設備',
+   term:'発電機室の条件',
+   nums:'耐火区画・吸気ルーバー・排熱ファン・排気管・室温40℃以下',
+   explanation:'専用の耐火区画された発電機室に設置。吸気ルーバー・排熱ファン・排気管を設け燃焼用空気の確保と発熱による室温上昇（40℃以下）を防止する。月1回の試験運転・年1回の総合点検を実施。'},
+  {field:'共通・省エネ', category:'省エネ総合',
+   term:'一次エネルギー消費量削減',
+   nums:'コジェネ+太陽光+ヒートポンプ+CO₂制御',
+   explanation:'ホテルの主な省エネ手法：\n①コジェネレーション（排熱→給湯・空調）\n②太陽光発電（自立運転機能も）\n③ヒートポンプ給湯機（高COP）\n④CO₂濃度制御による外気量最適化\n⑤VAV+インバーター制御による動力削減\n⑥循環給湯ポンプのセンサー制御'}
+];
+
+// 用語集フィールド別集計
+var curGlossaryField = 'all';
+
+function renderGlossary(){
+  var searchVal = document.getElementById('glossarySearch').value.trim().toLowerCase();
+  var filtered = GLOSSARY.filter(function(g){
+    var matchField = curGlossaryField==='all' || g.field===curGlossaryField;
+    var matchSearch = !searchVal ||
+      g.term.toLowerCase().includes(searchVal) ||
+      g.explanation.toLowerCase().includes(searchVal) ||
+      g.nums.toLowerCase().includes(searchVal) ||
+      g.category.toLowerCase().includes(searchVal);
+    return matchField && matchSearch;
+  });
+  // カテゴリー別にグループ化
+  var cats = {};
+  filtered.forEach(function(g){
+    if(!cats[g.field+':'+g.category]) cats[g.field+':'+g.category]={field:g.field,category:g.category,items:[]};
+    cats[g.field+':'+g.category].items.push(g);
+  });
+  var html = '';
+  if(!filtered.length){
+    html = '<div style="text-align:center;color:var(--text-sub);padding:30px;font-size:11px">該当する用語が見つかりません</div>';
+  } else {
+    Object.values(cats).forEach(function(cat){
+      var col = FCOL[cat.field]||'#888';
+      html += '<div class="glossary-category">';
+      html += '<div class="gc-title" style="color:'+col+'">'+esc(cat.category)+'</div>';
+      cat.items.forEach(function(g,i){
+        var uid = 'gc_'+Math.random().toString(36).slice(2);
+        html += '<div class="glossary-card" onclick="toggleGlossary(this)">'
+          +'<div class="gc-term-row">'
+          +'<span class="gc-term">'+esc(g.term)+'</span>'
+          +'<span class="gc-num">'+esc(g.nums)+'</span>'
+          +'<span class="gc-arrow">▶</span>'
+          +'</div>'
+          +'<div class="gc-explanation">'+esc(g.explanation)+'</div>'
+          +'</div>';
+      });
+      html += '</div>';
+    });
+  }
+  document.getElementById('glossaryList').innerHTML = html;
+}
+
+function toggleGlossary(card){
+  var exp = card.querySelector('.gc-explanation');
+  var arr = card.querySelector('.gc-arrow');
+  var isOpen = exp.classList.toggle('open');
+  arr.classList.toggle('open', isOpen);
+}
+
+// 用語集フィールドタブ
+document.getElementById('glossaryFieldTabs').addEventListener('click',function(e){
+  var t=e.target.closest('.gf-tab');if(!t)return;
+  curGlossaryField=t.dataset.gf;
+  document.querySelectorAll('.gf-tab').forEach(function(el){el.classList.toggle('active',el.dataset.gf===curGlossaryField);});
+  renderGlossary();
+});
+
+// 検索
+document.getElementById('glossarySearch').addEventListener('input',function(){
+  renderGlossary();
+});
+
+initCanvas();
+renderList();
+</script>
+</body>
+</html>
